@@ -1,0 +1,25 @@
+spring:
+  datasource:
+    url: jdbc:mariadb://52.79.168.177:3306/ltg
+    username: ltg
+    password: ltg.qwe123
+    driver-class-name: org.mariadb.jdbc.Driver
+#    url: jdbc:h2:tcp://localhost/~/test
+#    username: sa
+#    password:
+#    driver-class-name: org.h2.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: none #validate
+    properties:
+      hibernate:
+        #        show_sql: true
+        format_sql: true
+        default_batch_fetch_size: 100
+    open-in-view: false
+
+logging:
+  level:
+    org.hibernate.SQL: debug
+#    org.hibernate.orm.jdbc.bind: trace
