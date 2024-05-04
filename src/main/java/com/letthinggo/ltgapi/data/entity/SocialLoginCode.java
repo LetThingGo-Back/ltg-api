@@ -10,7 +10,6 @@ public enum SocialLoginCode {
     NAVER("N"),
     GOOGLE("G");
     private String code;
-    private String codeName;
     SocialLoginCode(String code) {
         this.code = code;
     }
