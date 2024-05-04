@@ -1,10 +1,10 @@
 package com.letthinggo.ltgapi.data.repository;
 
-import com.letthinggo.ltgapi.data.dto.UserResponseDto;
-import com.letthinggo.ltgapi.data.dto.UserRequestDto;
+import com.letthinggo.ltgapi.data.dto.UserResponseTestDto;
+import com.letthinggo.ltgapi.data.dto.UserRequestTestDto;
 
 import java.util.List;
 
 public interface UserRepositoryCustom {
-    List<UserResponseDto> search(UserRequestDto userRequestDto);
+    List<UserResponseTestDto> search(UserRequestTestDto userRequestDto);
 }

@@ -1,7 +1,7 @@
 package com.letthinggo.ltgapi.service.impl;
 
-import com.letthinggo.ltgapi.data.dto.UserResponseDto;
-import com.letthinggo.ltgapi.data.dto.UserRequestDto;
+import com.letthinggo.ltgapi.data.dto.UserResponseTestDto;
+import com.letthinggo.ltgapi.data.dto.UserRequestTestDto;
 import com.letthinggo.ltgapi.data.repository.UserRepository;
 import com.letthinggo.ltgapi.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
-    public List<UserResponseDto> findUserTest(UserRequestDto userRequestDto){
+    public List<UserResponseTestDto> findUserTest(UserRequestTestDto userRequestDto){
         return userRepository.search(userRequestDto);
     }
 }

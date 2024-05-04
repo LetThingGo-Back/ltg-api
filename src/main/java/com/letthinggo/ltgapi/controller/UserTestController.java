@@ -1,7 +1,7 @@
 package com.letthinggo.ltgapi.controller;
 
-import com.letthinggo.ltgapi.data.dto.UserRequestTestDto;
 import com.letthinggo.ltgapi.data.dto.UserResponseTestDto;
+import com.letthinggo.ltgapi.data.dto.UserRequestTestDto;
 import com.letthinggo.ltgapi.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -17,9 +17,9 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/")
-@Tag(name="user-controller", description = "일반 사용자 서비스를 위한 컨트롤러입니다.")
-public class UserController {
+@RequestMapping("/test")
+@Tag(name="user-test-controller", description = "테스트 컨트롤러입니다.")
+public class UserTestController {
 
     private final UserService userService;
 
