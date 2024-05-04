@@ -1,6 +1,6 @@
 package com.letthinggo.ltgapi.data.repository;
 
-import com.letthinggo.ltgapi.data.dto.QUserResponseDto;
+import com.letthinggo.ltgapi.data.dto.QUserResponseTestDto;
 import com.letthinggo.ltgapi.data.dto.UserResponseTestDto;
 import com.letthinggo.ltgapi.data.dto.UserRequestTestDto;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -19,7 +19,7 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
     @Override
     public List<UserResponseTestDto> search(UserRequestTestDto request) {
         return queryFactory
-                .select(new QUserResponseDto(
+                .select(new QUserResponseTestDto(
                         user.id,
                         user.nickname,
                         user.email))
