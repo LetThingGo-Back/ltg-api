@@ -1,10 +1,7 @@
 package com.letthinggo.ltgapi.data.entity;
 
-import com.letthinggo.ltgapi.data.entity.common.CreateDateTimeBy;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import com.letthinggo.ltgapi.data.entity.common.BaseDateTimeBy;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,15 +11,21 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Terms {
-    @Id @GeneratedValue
+@Table(name="TERMS")
+public class Terms extends BaseDateTimeBy{
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="TERMS_ID")
     private Long id;
+    @Column(name="TERMS_NAME")
     private String termsName;
+    @Column(name="TERMS_CONTENT")
     private String termsContent;
+    @Column(name="REQ_YN")
     private String reqYn;
+    @Column(name="USE_YN")
     private String useYn;
+    @Column(name="TERMS_SATRT_DATE")
     private LocalDateTime termsStartDate;
+    @Column(name="TERMS_END_DATE")
     private LocalDateTime termsEndDate;
-    private CreateDateTimeBy createDateTimeBy;
 }
