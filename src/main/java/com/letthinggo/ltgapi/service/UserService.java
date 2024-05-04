@@ -1,10 +1,10 @@
 package com.letthinggo.ltgapi.service;
 
-import com.letthinggo.ltgapi.data.dto.UserResponseDto;
-import com.letthinggo.ltgapi.data.dto.UserRequestDto;
+import com.letthinggo.ltgapi.data.dto.UserResponseTestDto;
+import com.letthinggo.ltgapi.data.dto.UserRequestTestDto;
 
 import java.util.List;
 
 public interface UserService {
-    public List<UserResponseDto> findUserTest(UserRequestDto userRequestDto);
+    public List<UserResponseTestDto> findUserTest(UserRequestTestDto userRequestDto);
 }

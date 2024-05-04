@@ -1,8 +1,8 @@
 package com.letthinggo.ltgapi.data.repository;
 
 import com.letthinggo.ltgapi.data.dto.QUserResponseDto;
-import com.letthinggo.ltgapi.data.dto.UserResponseDto;
-import com.letthinggo.ltgapi.data.dto.UserRequestDto;
+import com.letthinggo.ltgapi.data.dto.UserResponseTestDto;
+import com.letthinggo.ltgapi.data.dto.UserRequestTestDto;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,7 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<UserResponseDto> search(UserRequestDto request) {
+    public List<UserResponseTestDto> search(UserRequestTestDto request) {
         return queryFactory
                 .select(new QUserResponseDto(
                         user.id,
