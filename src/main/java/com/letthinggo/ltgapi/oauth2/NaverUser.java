@@ -6,8 +6,8 @@ import java.util.Map;
 
 public class NaverUser extends OAuth2ProviderUser{
 
-    public NaverUser(OAuth2User oAuth2User, ClientRegistration clientRegistration){
-        super((Map<String, Object>)oAuth2User.getAttributes().get("response"), oAuth2User, clientRegistration);
+    public NaverUser(Attributes attributes, OAuth2User oAuth2User, ClientRegistration clientRegistration){
+        super(attributes.getSubAttributes(), oAuth2User, clientRegistration);
     }
 
     @Override
