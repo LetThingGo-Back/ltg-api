@@ -6,12 +6,15 @@ import java.util.Arrays;
 
 @Getter
 public enum SocialLoginCode {
-    KAKAO("K"),
-    NAVER("N"),
-    GOOGLE("G");
+    KAKAO("K" , "kakao"),
+    NAVER("N", "naver"),
+    GOOGLE("G", "google");
     private String code;
-    SocialLoginCode(String code) {
+    private String socialName;
+
+    SocialLoginCode(String code, String socialName) {
         this.code = code;
+        this.socialName = socialName;
     }
 
     public static SocialLoginCode fromCode(String dbData){

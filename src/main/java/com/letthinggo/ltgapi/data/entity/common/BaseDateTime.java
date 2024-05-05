@@ -27,9 +27,4 @@ public abstract class BaseDateTime {
     @LastModifiedDate
     @Column(name="UPDATED_DATE" )
     private Date updatedDate;
-//    @PrePersist
-//    public void onPrePersist() {
-//        this.createdDate =  LocalDateTime.now(ZoneId.of("Asia/Seoul"));
-//        this.updatedDate =  LocalDateTime.now(ZoneId.of("Asia/Seoul"));
-//    }
 }

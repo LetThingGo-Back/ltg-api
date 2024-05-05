@@ -1,20 +1,17 @@
 package com.letthinggo.ltgapi.service;
 
+import com.letthinggo.ltgapi.converters.ProviderUserConverter;
+import com.letthinggo.ltgapi.converters.ProviderUserRequest;
 import com.letthinggo.ltgapi.data.dto.UserCreateRequest;
 import com.letthinggo.ltgapi.data.entity.SocialLogin;
 import com.letthinggo.ltgapi.data.entity.SocialLoginCode;
-import com.letthinggo.ltgapi.data.entity.Users;
 import com.letthinggo.ltgapi.data.repository.SocialLoginRepository;
-import com.letthinggo.ltgapi.data.repository.UserRepository;
-import com.letthinggo.ltgapi.oauth2.GoogleUser;
-import com.letthinggo.ltgapi.oauth2.NaverUser;
 import com.letthinggo.ltgapi.oauth2.ProviderUser;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,12 +19,12 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public abstract class AbstractOAuth2UserService {
     @Autowired
-    private UserService userService;
+    private  UserService userService;
     @Autowired
     private SocialLoginRepository socialLoginRepository;
-
+    @Autowired
+    private ProviderUserConverter<ProviderUserRequest, ProviderUser> providerUserConverter;
     public void register(ProviderUser providerUser, OAuth2UserRequest userRequest){
-        log.debug("여기오나?111", providerUser.getProvider());
         SocialLogin socialLogin = socialLoginRepository.findBySocialCodeAndExternalId(SocialLoginCode.valueOf(providerUser.getProvider()), providerUser.getId());
 
         if(socialLogin == null){
@@ -37,16 +34,7 @@ public abstract class AbstractOAuth2UserService {
         }
     }
 
-    public ProviderUser providerUser(ClientRegistration clientRegistration, OAuth2User oAuth2User){
-        String registrationId = clientRegistration.getRegistrationId();
-        if(registrationId.equals("google")){
-            return new GoogleUser(oAuth2User,clientRegistration);
-        }
-        else if(registrationId.equals("naver")){
-            return new NaverUser(oAuth2User,clientRegistration);
-        }else if(registrationId.equals("kakao")){
-            return null;
-        }
-        return null;
+    public ProviderUser providerUser(ProviderUserRequest providerUserRequest){
+        return providerUserConverter.convert(providerUserRequest);
     }
 }
