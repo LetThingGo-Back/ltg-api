@@ -1,7 +1,7 @@
 package com.letthinggo.ltgapi.service;
 
 import com.letthinggo.ltgapi.converters.ProviderUserRequest;
-import com.letthinggo.ltgapi.oauth2.ProviderUser;
+import com.letthinggo.ltgapi.data.dto.social.ProviderUser;
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserService;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
@@ -10,6 +10,7 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Service;
 
+// TODO: 추후에 oidc 방식도 다시 확인
 @Service
 public class CustomOidcUserService extends AbstractOAuth2UserService implements OAuth2UserService<OidcUserRequest, OidcUser> {
 

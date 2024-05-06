@@ -1,10 +1,10 @@
 package com.letthinggo.ltgapi.data.entity;
 
-import com.letthinggo.ltgapi.data.dto.UserCreateRequest;
+import com.letthinggo.ltgapi.data.dto.RefreshTokenDto;
+import com.letthinggo.ltgapi.data.dto.UserDto;
 import com.letthinggo.ltgapi.data.entity.common.BaseDateTime;
 import jakarta.persistence.*;
 import lombok.*;
-import org.apache.catalina.User;
 
 import java.time.LocalDateTime;
 
@@ -24,26 +24,33 @@ public class SocialLogin extends BaseDateTime{
     private SocialLoginCode socialCode;
     @Column(name="EXTERNAL_ID")
     private String externalId;
-    @Column(name="ACCESS_TOKEN")
-    private String accessToken;
     @Column(name="REFRESH_TOKEN")
     private String refreshToken;
 
     @Column(name="EXPIRATION_DATE")
     private LocalDateTime expirationDate;
     @Builder
-    public SocialLogin(Users user, SocialLoginCode socialCode, String externalId, String accessToken, String refreshToken) {
+    public SocialLogin(Users user, SocialLoginCode socialCode, String externalId, String accessToken, String refreshToken, LocalDateTime expirationDate) {
         this.user = user;
         this.socialCode = socialCode;
         this.externalId = externalId;
-        this.accessToken = accessToken;
         this.refreshToken = refreshToken;
+        this.expirationDate = expirationDate;
     }
 
-    public static SocialLogin creatSocialLogin(UserCreateRequest userDto, Users user) {
+    public static SocialLogin createSocialLogin(UserDto userDto, Users user) {
         return SocialLogin.builder() .user(user)
                         .socialCode(userDto.getSocialCode())
                         .externalId(userDto.getExternalId())
                         .build();
+    }
+
+    public static SocialLogin updateRefreshToken(RefreshTokenDto refreshTokenDto) {
+        return SocialLogin.builder()
+                .socialCode(refreshTokenDto.getSocialCode())
+                .externalId(refreshTokenDto.getExternalId())
+                .refreshToken(refreshTokenDto.getRefreshToken())
+                .expirationDate(refreshTokenDto.getExpirationDate())
+                .build();
     }
 }

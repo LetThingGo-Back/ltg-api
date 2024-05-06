@@ -1,18 +1,14 @@
 package com.letthinggo.ltgapi.data.entity;
 
-import com.letthinggo.ltgapi.data.dto.UserCreateRequest;
+import com.letthinggo.ltgapi.data.dto.UserDto;
 import com.letthinggo.ltgapi.data.entity.common.BaseDateTime;
 import jakarta.persistence.*;
 import lombok.*;
-import org.apache.catalina.User;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -51,7 +47,7 @@ public class Users extends BaseDateTime{
         this.attach = attach;
     }
 
-    public static Users createUsers(UserCreateRequest userDto){
+    public static Users createUsers(UserDto userDto){
         return Users.builder().nickname(userDto.getNickname())
                 .email(userDto.getEmail())
                 .build();

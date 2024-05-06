@@ -1,4 +1,4 @@
-package com.letthinggo.ltgapi.oauth2;
+package com.letthinggo.ltgapi.data.dto.social;
 
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -15,7 +15,13 @@ public class GoogleUser extends OAuth2ProviderUser{
 
     @Override
     public String getUsername() {
-        return (String)getAttributes().get("sub");
+        return new StringBuilder()
+                .append(getProvider()).append("_")
+                .append((String)getAttributes().get("sub")).toString();
+    }
+    @Override
+    public String getNickname() {
+        return (String)getAttributes().get("name");
     }
 
 }

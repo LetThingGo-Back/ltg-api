@@ -1,6 +1,6 @@
 package com.letthinggo.ltgapi.service.impl;
 
-import com.letthinggo.ltgapi.data.dto.UserCreateRequest;
+import com.letthinggo.ltgapi.data.dto.UserDto;
 import com.letthinggo.ltgapi.data.dto.UserResponseTestDto;
 import com.letthinggo.ltgapi.data.dto.UserRequestTestDto;
 import com.letthinggo.ltgapi.data.entity.SocialLogin;
@@ -26,10 +26,10 @@ public class UserServiceImpl implements UserService {
     }
     @Transactional
     @Override
-    public Long createUser(UserCreateRequest userDto) {
+    public Long createUser(UserDto userDto) {
         Users user = Users.createUsers(userDto);
         userRepository.save(user);
-        SocialLogin socialLogin = SocialLogin.creatSocialLogin(userDto, user);
+        SocialLogin socialLogin = SocialLogin.createSocialLogin(userDto, user);
         socialLoginRepository.save(socialLogin);
         return user.getId();
     }

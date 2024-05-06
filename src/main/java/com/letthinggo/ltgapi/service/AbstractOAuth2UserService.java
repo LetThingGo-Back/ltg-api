@@ -2,13 +2,12 @@ package com.letthinggo.ltgapi.service;
 
 import com.letthinggo.ltgapi.converters.ProviderUserConverter;
 import com.letthinggo.ltgapi.converters.ProviderUserRequest;
-import com.letthinggo.ltgapi.data.dto.UserCreateRequest;
+import com.letthinggo.ltgapi.data.dto.UserDto;
 import com.letthinggo.ltgapi.data.entity.SocialLogin;
 import com.letthinggo.ltgapi.data.entity.SocialLoginCode;
 import com.letthinggo.ltgapi.data.repository.SocialLoginRepository;
-import com.letthinggo.ltgapi.oauth2.ProviderUser;
+import com.letthinggo.ltgapi.data.dto.social.ProviderUser;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -28,7 +27,7 @@ public abstract class AbstractOAuth2UserService {
         SocialLogin socialLogin = socialLoginRepository.findBySocialCodeAndExternalId(SocialLoginCode.valueOf(providerUser.getProvider()), providerUser.getId());
 
         if(socialLogin == null){
-            userService.createUser(new UserCreateRequest(providerUser));
+            Long id = userService.createUser(new UserDto(providerUser));
         }else{
             log.debug("userRequest = ", userRequest);
         }

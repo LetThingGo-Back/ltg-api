@@ -1,4 +1,4 @@
-package com.letthinggo.ltgapi.oauth2;
+package com.letthinggo.ltgapi.data.dto.social;
 
 import lombok.Builder;
 import lombok.Data;
