@@ -1,4 +1,4 @@
-package com.letthinggo.ltgapi.oauth2;
+package com.letthinggo.ltgapi.data.dto.social;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -29,10 +29,7 @@ public abstract class OAuth2ProviderUser implements ProviderUser{
     public String getEmail() {
         return(String)attributes.get("email");
     }
-    @Override
-    public String getNickName() {
-        return (String)attributes.get("nickname");
-    }
+
     @Override
     public String getProvider() {
         return clientRegistration.getRegistrationId().toUpperCase();

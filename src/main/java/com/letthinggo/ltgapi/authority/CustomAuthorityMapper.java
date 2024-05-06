@@ -1,4 +1,4 @@
-package com.letthinggo.ltgapi.config;
+package com.letthinggo.ltgapi.authority;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -18,6 +18,7 @@ public class CustomAuthorityMapper implements GrantedAuthoritiesMapper {
         for (GrantedAuthority authority : authorities) {
             mapped.add(mapAuthority(authority.getAuthority()));
         }
+        mapped.add( new SimpleGrantedAuthority("ROLE_USER"));
 
         return mapped;
     }

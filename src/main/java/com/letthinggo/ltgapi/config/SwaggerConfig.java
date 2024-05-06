@@ -15,11 +15,20 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @RequiredArgsConstructor
 public class SwaggerConfig {
+//    @Bean
+//    public GroupedOpenApi customTestOpenApi(){
+//        String[] paths = {"/users/**"};
+//        return GroupedOpenApi.builder()
+//                .group("일반 사용자를 위한 User 도메인에 대한 API")
+//                .pathsToMatch(paths)
+//                .build();
+//    }
+
     @Bean
     public GroupedOpenApi customTestOpenApi(){
-        String[] paths = {"/users/**"};
+        String[] paths = {"/test/**"};
         return GroupedOpenApi.builder()
-                .group("일반 사용자를 위한 User 도메인에 대한 API")
+                .group("테스트 API")
                 .pathsToMatch(paths)
                 .build();
     }

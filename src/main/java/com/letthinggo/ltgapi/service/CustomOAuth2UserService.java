@@ -1,7 +1,9 @@
 package com.letthinggo.ltgapi.service;
 
 import com.letthinggo.ltgapi.converters.ProviderUserRequest;
-import com.letthinggo.ltgapi.oauth2.ProviderUser;
+import com.letthinggo.ltgapi.data.dto.CustomOAuth2User;
+import com.letthinggo.ltgapi.data.dto.UserDto;
+import com.letthinggo.ltgapi.data.dto.social.ProviderUser;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -25,6 +27,7 @@ public class CustomOAuth2UserService extends AbstractOAuth2UserService implement
         // 회원가입하기
         super.register(providerUser, userRequest);
 
-        return oAuth2User;
+        return new CustomOAuth2User(new UserDto(providerUser));
+//        return oAuth2User;
     }
 }

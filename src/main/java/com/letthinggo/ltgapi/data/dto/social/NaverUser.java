@@ -1,8 +1,7 @@
-package com.letthinggo.ltgapi.oauth2;
+package com.letthinggo.ltgapi.data.dto.social;
 
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.core.user.OAuth2User;
-import java.util.Map;
 
 public class NaverUser extends OAuth2ProviderUser{
 
@@ -17,8 +16,12 @@ public class NaverUser extends OAuth2ProviderUser{
 
     @Override
     public String getUsername() {
-
-        return (String)getAttributes().get("email");
+        return new StringBuilder()
+                .append(getProvider()).append("_")
+                .append((String)getAttributes().get("id")).toString();
     }
-
+    @Override
+    public String getNickname() {
+        return (String)getAttributes().get("nickname");
+    }
 }

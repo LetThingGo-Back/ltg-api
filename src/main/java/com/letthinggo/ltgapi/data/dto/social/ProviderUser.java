@@ -1,4 +1,4 @@
-package com.letthinggo.ltgapi.oauth2;
+package com.letthinggo.ltgapi.data.dto.social;
 
 import org.springframework.security.core.GrantedAuthority;
 
@@ -11,7 +11,7 @@ public interface ProviderUser {
     public String getPassword();
     public String getEmail();
 
-    public String getNickName();
+    public String getNickname();
     public String getProvider();
 
     public List<? extends GrantedAuthority> getAuthorities();

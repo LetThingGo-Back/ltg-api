@@ -8,6 +8,8 @@ spring:
 #    username: sa
 #    password:
 #    driver-class-name: org.h2.Driver
+  jwt:
+    secret: 502dddd2c8b1621fef4ed62bb03beba62e4cad4e59708539aa0809ca92152e9dc8842dac8a6b2552fe73437d9fed46f1e7c0b4b8da843cafb1771264c021f1ea
   security:
     oauth2:
       client:
@@ -15,13 +17,14 @@ spring:
           google:
             client-id: 54389455163-0fkv2c91d7ktvp7jtpqr182ncfk2kg27.apps.googleusercontent.com
             client-secret: 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
-            scope: openid,profile,email
+            scope: profile,email
           naver:
             client-id: aQPA1fbCMbP9JbfseQ7W
             client-secret: VBNasq4MpX
             authorization-grant-type: authorization_code
             client-name: letthinggo
-            redirect-uri: http://localhost:8080/login/oauth2/code/naver
+#            redirect-uri: http://localhost:8080/login/oauth2/code/naver
+            redirect-uri: http://52.79.168.177:8080/login/oauth2/code/naver
             scope: profile,email
 #          kakao:
 #            client-id:
@@ -62,3 +65,10 @@ logging:
   level:
     org.hibernate.SQL: debug
 #    org.hibernate.orm.jdbc.bind: trace
+
+springdoc:
+  swagger-ui:
+    disable-swagger-default-url: true
+    path: /swagger-ui.html
+  api-docs:
+    path: /api-docs

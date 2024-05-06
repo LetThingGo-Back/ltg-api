@@ -8,6 +8,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,8 +33,9 @@ public class UserTestController {
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR!!"),
     })
     @GetMapping("/users")
-    public List<UserResponseTestDto> retrieveUserTest(@RequestBody UserRequestTestDto userRequestDto){
-        return userService.findUserTest(userRequestDto);
+    public ResponseEntity retrieveUserTest(@RequestBody UserRequestTestDto userRequestDto){
+        List<UserResponseTestDto>  rtnVo = userService.findUserTest(userRequestDto);
+        return ResponseEntity.status(HttpStatus.OK).body(rtnVo);
     }
 
 }
