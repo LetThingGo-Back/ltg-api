@@ -24,18 +24,11 @@ public class SocialLogin extends BaseDateTime{
     private SocialLoginCode socialCode;
     @Column(name="EXTERNAL_ID")
     private String externalId;
-    @Column(name="REFRESH_TOKEN")
-    private String refreshToken;
-
-    @Column(name="EXPIRATION_DATE")
-    private LocalDateTime expirationDate;
     @Builder
-    public SocialLogin(Users user, SocialLoginCode socialCode, String externalId, String accessToken, String refreshToken, LocalDateTime expirationDate) {
+    public SocialLogin(Users user, SocialLoginCode socialCode, String externalId) {
         this.user = user;
         this.socialCode = socialCode;
         this.externalId = externalId;
-        this.refreshToken = refreshToken;
-        this.expirationDate = expirationDate;
     }
 
     public static SocialLogin createSocialLogin(UserDto userDto, Users user) {
@@ -45,12 +38,4 @@ public class SocialLogin extends BaseDateTime{
                         .build();
     }
 
-    public static SocialLogin updateRefreshToken(RefreshTokenDto refreshTokenDto) {
-        return SocialLogin.builder()
-                .socialCode(refreshTokenDto.getSocialCode())
-                .externalId(refreshTokenDto.getExternalId())
-                .refreshToken(refreshTokenDto.getRefreshToken())
-                .expirationDate(refreshTokenDto.getExpirationDate())
-                .build();
-    }
 }

@@ -23,8 +23,8 @@ spring:
             client-secret: VBNasq4MpX
             authorization-grant-type: authorization_code
             client-name: letthinggo
-#            redirect-uri: http://localhost:8080/login/oauth2/code/naver
-            redirect-uri: http://52.79.168.177:8080/login/oauth2/code/naver
+            redirect-uri: http://localhost:8080/login/oauth2/code/naver
+#            redirect-uri: http://52.79.168.177:8080/login/oauth2/code/naver
             scope: profile,email
 #          kakao:
 #            client-id:
