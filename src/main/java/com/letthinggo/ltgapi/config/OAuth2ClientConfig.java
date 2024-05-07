@@ -1,5 +1,7 @@
 package com.letthinggo.ltgapi.config;
 
+import com.letthinggo.ltgapi.handler.CustomAccessDeniedHandler;
+import com.letthinggo.ltgapi.handler.CustomAuthenticationEntryPoint;
 import com.letthinggo.ltgapi.jwt.JwtFilter;
 import com.letthinggo.ltgapi.handler.CustomSuccessHandler;
 import com.letthinggo.ltgapi.service.CustomOAuth2UserService;
@@ -30,6 +32,9 @@ public class OAuth2ClientConfig {
     private final CustomSuccessHandler customSuccessHandler;
     private final CustomOAuth2UserService customOAuth2UserService;
     private final CustomOidcUserService customOidcUserService;
+
+    private final CustomAccessDeniedHandler customAccessDeniedHandler;
+    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
@@ -64,7 +69,10 @@ public class OAuth2ClientConfig {
                 .hasRole("OIDC_USER")
                 .requestMatchers("/", "/reissue")
                 .permitAll()
-                .anyRequest().authenticated());
+                .anyRequest().authenticated())
+                .exceptionHandling(c ->c.authenticationEntryPoint(customAuthenticationEntryPoint)
+                        .accessDeniedHandler(customAccessDeniedHandler)
+                );
         http.oauth2Login(oauth2 -> oauth2
                 .successHandler(customSuccessHandler)
                 .userInfoEndpoint(

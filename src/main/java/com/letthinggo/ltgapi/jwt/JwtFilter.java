@@ -18,7 +18,6 @@ import java.io.PrintWriter;
 
 @RequiredArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {
-
     private final JwtUtil jwtUtil;
 
     @Override
@@ -62,12 +61,9 @@ public class JwtFilter extends OncePerRequestFilter {
             return;
         }
 
-        String username = jwtUtil.getUsername(originToken);
-        String role = jwtUtil.getRole(originToken);
-
         UserDto userDto = new UserDto();
-        userDto.setUsername(username);
-        userDto.setRole(role);
+        userDto.setUsername(jwtUtil.getUserId(originToken));
+        userDto.setRole(jwtUtil.getRole(originToken));
 
         CustomOAuth2User customOAuth2User = new CustomOAuth2User(userDto);
 

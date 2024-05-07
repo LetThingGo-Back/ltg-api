@@ -23,14 +23,14 @@ public abstract class AbstractOAuth2UserService {
     private SocialLoginRepository socialLoginRepository;
     @Autowired
     private ProviderUserConverter<ProviderUserRequest, ProviderUser> providerUserConverter;
-    public void register(ProviderUser providerUser, OAuth2UserRequest userRequest){
+    public UserDto register(ProviderUser providerUser, OAuth2UserRequest userRequest){
         SocialLogin socialLogin = socialLoginRepository.findBySocialCodeAndExternalId(SocialLoginCode.valueOf(providerUser.getProvider()), providerUser.getId());
 
         if(socialLogin == null){
-            Long id = userService.createUser(new UserDto(providerUser));
-        }else{
-            log.debug("userRequest = ", userRequest);
+            return userService.createUser(new UserDto(providerUser));
         }
+
+        return null;
     }
 
     public ProviderUser providerUser(ProviderUserRequest providerUserRequest){

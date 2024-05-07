@@ -26,12 +26,13 @@ public class UserServiceImpl implements UserService {
     }
     @Transactional
     @Override
-    public Long createUser(UserDto userDto) {
+    public UserDto createUser(UserDto userDto) {
         Users user = Users.createUsers(userDto);
         userRepository.save(user);
         SocialLogin socialLogin = SocialLogin.createSocialLogin(userDto, user);
         socialLoginRepository.save(socialLogin);
-        return user.getId();
+        userDto.setUserId(user.getId());
+        return userDto;
     }
 
 

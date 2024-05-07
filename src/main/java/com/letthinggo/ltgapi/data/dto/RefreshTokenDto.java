@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 
 @Data
 public class RefreshTokenDto {
+    private Long userId;
     private SocialLoginCode socialCode;
     private String externalId;
     private String refreshToken;

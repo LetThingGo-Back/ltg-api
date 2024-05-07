@@ -4,6 +4,7 @@ package com.letthinggo.ltgapi.handler;
 import com.letthinggo.ltgapi.data.dto.CustomOAuth2User;
 import com.letthinggo.ltgapi.data.dto.RefreshTokenDto;
 import com.letthinggo.ltgapi.data.entity.SocialLoginCode;
+import com.letthinggo.ltgapi.service.RefreshTokenService;
 import com.letthinggo.ltgapi.service.SocialLoginService;
 import com.letthinggo.ltgapi.jwt.JwtUtil;
 import jakarta.servlet.ServletException;
@@ -32,13 +33,11 @@ import java.util.Date;
 public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     private final JwtUtil jwtUtil;
-    private final SocialLoginService socialLoginService;
+    private final RefreshTokenService refreshTokenService;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         CustomOAuth2User oAuth2User = (CustomOAuth2User)authentication.getPrincipal();
-
-        String username = oAuth2User.getUsername();
         String role = "";
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         for (GrantedAuthority authority : authorities) {
@@ -47,16 +46,17 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
                 break;
             }
         }
-        String accessToken = jwtUtil.createJwt("access", username, role, 86400000L); // 24 hours
-        String refreshToken = jwtUtil.createJwt("refresh", username, role, 2592000000L); //30 days
+        String accessToken = jwtUtil.createJwt("access", oAuth2User.getUserId(), role, 86400000L); // 24 hours
+        String refreshToken = jwtUtil.createJwt("refresh", oAuth2User.getUserId(), role, 2592000000L); //30 days
 
         // TODO: 추후에 redis로 변경
-        RefreshTokenDto refreshTokenRequest = new RefreshTokenDto();
-        refreshTokenRequest.setSocialCode(oAuth2User.getSocialCode());
-        refreshTokenRequest.setExternalId(oAuth2User.getExternalId());
-        refreshTokenRequest.setRefreshToken(refreshToken);
-        refreshTokenRequest.setExpirationDate(LocalDateTime.ofInstant(Instant.ofEpochMilli(System.currentTimeMillis() + 2592000000L), ZoneId.systemDefault()));
-        int result = socialLoginService.updateRefreshToken(refreshTokenRequest);
+        RefreshTokenDto refreshTokenDto = new RefreshTokenDto();
+        refreshTokenDto.setUserId(oAuth2User.getUserId());
+        refreshTokenDto.setSocialCode(oAuth2User.getSocialCode());
+        refreshTokenDto.setExternalId(oAuth2User.getExternalId());
+        refreshTokenDto.setRefreshToken(refreshToken);
+        refreshTokenDto.setExpirationDate(LocalDateTime.ofInstant(Instant.ofEpochMilli(System.currentTimeMillis() + 2592000000L), ZoneId.systemDefault()));
+        refreshTokenService.createRefreshToken(refreshTokenDto);
 
         response.setHeader("access", "Bearer " + accessToken);
         response.addCookie(createCookie("refresh", refreshToken));
