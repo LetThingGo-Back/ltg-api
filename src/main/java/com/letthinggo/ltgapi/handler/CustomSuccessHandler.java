@@ -58,8 +58,8 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         refreshTokenDto.setExpirationDate(LocalDateTime.ofInstant(Instant.ofEpochMilli(System.currentTimeMillis() + 2592000000L), ZoneId.systemDefault()));
         refreshTokenService.createRefreshToken(refreshTokenDto);
 
-        response.setHeader("access", "Bearer " + accessToken);
-        response.addCookie(createCookie("refresh", refreshToken));
+        response.setHeader("accessToken", "Bearer " + accessToken);
+        response.addCookie(createCookie("refreshToken", refreshToken));
         response.setStatus(HttpStatus.OK.value());
         response.sendRedirect("http://localhost:3000/hello");       // 로그인 성공시 프론트 redirect 경로
 
@@ -67,7 +67,7 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
     private Cookie createCookie(String key, String value) {
         Cookie cookie = new Cookie(key, value);
-        cookie.setMaxAge(24*60*60);
+        cookie.setMaxAge(30 * 24 * 60 * 60); // 30일
         /*cookie.setSecure();*/         // https 설정
         /*cookie.setPath("/");*/
         cookie.setHttpOnly(true);

@@ -1,6 +1,6 @@
 package com.letthinggo.ltgapi.converters;
 
-import com.letthinggo.ltgapi.data.dto.social.ProviderUser;
+import com.letthinggo.ltgapi.social.dto.ProviderUser;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;

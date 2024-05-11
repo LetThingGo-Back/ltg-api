@@ -1,7 +1,7 @@
 package com.letthinggo.ltgapi.data.dto;
 
 import com.letthinggo.ltgapi.data.entity.SocialLoginCode;
-import com.letthinggo.ltgapi.data.dto.social.ProviderUser;
+import com.letthinggo.ltgapi.social.dto.ProviderUser;
 import io.micrometer.common.util.StringUtils;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;

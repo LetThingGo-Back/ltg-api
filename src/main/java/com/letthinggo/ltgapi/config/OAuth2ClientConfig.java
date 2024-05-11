@@ -4,8 +4,8 @@ import com.letthinggo.ltgapi.exception.CustomAccessDeniedHandler;
 import com.letthinggo.ltgapi.exception.CustomAuthenticationEntryPoint;
 import com.letthinggo.ltgapi.jwt.JwtFilter;
 import com.letthinggo.ltgapi.handler.CustomSuccessHandler;
-import com.letthinggo.ltgapi.service.CustomOAuth2UserService;
-import com.letthinggo.ltgapi.service.CustomOidcUserService;
+import com.letthinggo.ltgapi.social.CustomOAuth2UserService;
+import com.letthinggo.ltgapi.social.CustomOidcUserService;
 import com.letthinggo.ltgapi.jwt.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -63,11 +63,11 @@ public class OAuth2ClientConfig {
             .httpBasic(HttpBasicConfigurer::disable); //HTTP Basic 인증 방식 disable
         http.addFilterBefore(new JwtFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
         http.authorizeHttpRequests((requests) -> requests
-                .requestMatchers("/api/users")
-                .hasRole("OAUTH2_USER")
-                .requestMatchers("/api/oidc")
-                .hasRole("OIDC_USER")
-                .requestMatchers("/", "/reissue")
+//                .requestMatchers("/api/users")
+//                .hasRole("OAUTH2_USER")
+//                .requestMatchers("/api/oidc")
+//                .hasRole("OIDC_USER")
+                .requestMatchers("/", "/reissue", "/v1/oauth/**")
                 .permitAll()
                 .anyRequest().authenticated())
 //                .exceptionHandling(c ->c.authenticationEntryPoint(customAuthenticationEntryPoint)

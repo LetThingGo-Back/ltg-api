@@ -1,4 +1,4 @@
-package com.letthinggo.ltgapi.data.dto.social;
+package com.letthinggo.ltgapi.social.dto;
 
 import lombok.Builder;
 import lombok.Data;

@@ -1,4 +1,4 @@
-package com.letthinggo.ltgapi.data.dto.social;
+package com.letthinggo.ltgapi.social.dto;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

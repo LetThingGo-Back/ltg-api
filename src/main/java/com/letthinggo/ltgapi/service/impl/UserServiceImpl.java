@@ -7,10 +7,8 @@ import com.letthinggo.ltgapi.data.entity.SocialLogin;
 import com.letthinggo.ltgapi.data.entity.Users;
 import com.letthinggo.ltgapi.data.repository.SocialLoginRepository;
 import com.letthinggo.ltgapi.data.repository.UserRepository;
-import com.letthinggo.ltgapi.response.ApiResponse;
 import com.letthinggo.ltgapi.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.hateoas.EntityModel;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

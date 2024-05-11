@@ -15,7 +15,7 @@ import static com.letthinggo.ltgapi.response.ApiStatus.*;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ApiResponse<T> {
+public class ApiCommonResponse<T> {
 
 //    private static final String SUCCESS_STATUS = "success";
 //    private static final String FAIL_STATUS = "fail";
@@ -25,16 +25,16 @@ public class ApiResponse<T> {
     private T data;
     private String message;
 
-    public static <T> ApiResponse<T> createSuccess(T data) {
-        return new ApiResponse<>(SUCCESS.getStatus(), data, null);
+    public static <T> ApiCommonResponse<T> createSuccess(T data) {
+        return new ApiCommonResponse<>(SUCCESS.getStatus(), data, null);
     }
 
-    public static ApiResponse<?> createSuccessWithNoContent() {
-        return new ApiResponse<>(SUCCESS.getStatus(), null, null);
+    public static ApiCommonResponse<?> createSuccessWithNoContent() {
+        return new ApiCommonResponse<>(SUCCESS.getStatus(), null, null);
     }
 
     // Hibernate Validator에 의해 유효하지 않은 데이터로 인해 API 호출이 거부될때 반환
-    public static ApiResponse<?> createFail(BindingResult bindingResult) {
+    public static ApiCommonResponse<?> createFail(BindingResult bindingResult) {
         Map<String, String> errors = new HashMap<>();
 
         List<ObjectError> allErrors = bindingResult.getAllErrors();
@@ -45,15 +45,15 @@ public class ApiResponse<T> {
                 errors.put( error.getObjectName(), error.getDefaultMessage());
             }
         }
-        return new ApiResponse<>(FAIL.getStatus(), errors, null);
+        return new ApiCommonResponse<>(FAIL.getStatus(), errors, null);
     }
 
     // 예외 발생으로 API 호출 실패시 반환
-    public static ApiResponse<?> createError(String message) {
-        return new ApiResponse<>(ERROR.getStatus(), null, message);
+    public static ApiCommonResponse<?> createError(String message) {
+        return new ApiCommonResponse<>(ERROR.getStatus(), null, message);
     }
 
-    private ApiResponse(String status, T data, String message) {
+    private ApiCommonResponse(String status, T data, String message) {
         this.status = status;
         this.data = data;
         this.message = message;
