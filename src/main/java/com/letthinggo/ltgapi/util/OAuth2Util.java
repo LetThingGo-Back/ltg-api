@@ -1,6 +1,6 @@
 package com.letthinggo.ltgapi.util;
 
-import com.letthinggo.ltgapi.data.dto.social.Attributes;
+import com.letthinggo.ltgapi.social.dto.Attributes;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.Map;

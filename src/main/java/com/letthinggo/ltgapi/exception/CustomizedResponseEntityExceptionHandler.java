@@ -1,9 +1,7 @@
 package com.letthinggo.ltgapi.exception;
 
-import com.letthinggo.ltgapi.response.ApiResponse;
-import org.springframework.http.HttpHeaders;
+import com.letthinggo.ltgapi.response.ApiCommonResponse;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -15,12 +13,12 @@ import org.springframework.web.context.request.WebRequest;
 public class CustomizedResponseEntityExceptionHandler {
     @ExceptionHandler(Exception.class)
     public final ResponseEntity<Object> handleAllExceptions(Exception ex, WebRequest request){
-        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.createError(ex.getMessage()));
+        return ResponseEntity.status(HttpStatus.OK).body(ApiCommonResponse.createError(ex.getMessage()));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ApiResponse<?>> handleValidationExceptions(BindingResult bindingResult) {
-        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.createFail(bindingResult));
+    public ResponseEntity<ApiCommonResponse<?>> handleValidationExceptions(BindingResult bindingResult) {
+        return ResponseEntity.status(HttpStatus.OK).body(ApiCommonResponse.createFail(bindingResult));
     }
 
 }

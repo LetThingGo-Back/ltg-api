@@ -1,9 +1,9 @@
-package com.letthinggo.ltgapi.service;
+package com.letthinggo.ltgapi.social;
 
 import com.letthinggo.ltgapi.converters.ProviderUserRequest;
 import com.letthinggo.ltgapi.data.dto.CustomOAuth2User;
 import com.letthinggo.ltgapi.data.dto.UserDto;
-import com.letthinggo.ltgapi.data.dto.social.ProviderUser;
+import com.letthinggo.ltgapi.social.dto.ProviderUser;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;

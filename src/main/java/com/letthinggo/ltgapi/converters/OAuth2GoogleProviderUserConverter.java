@@ -1,8 +1,8 @@
 package com.letthinggo.ltgapi.converters;
 
 import com.letthinggo.ltgapi.data.entity.SocialLoginCode;
-import com.letthinggo.ltgapi.data.dto.social.GoogleUser;
-import com.letthinggo.ltgapi.data.dto.social.ProviderUser;
+import com.letthinggo.ltgapi.social.dto.GoogleUser;
+import com.letthinggo.ltgapi.social.dto.ProviderUser;
 import com.letthinggo.ltgapi.util.OAuth2Util;
 
 public final class OAuth2GoogleProviderUserConverter implements ProviderUserConverter<ProviderUserRequest,ProviderUser> {

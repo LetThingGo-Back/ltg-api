@@ -17,8 +17,8 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
 
     @Transactional
     @Override
-    public Long createRefreshToken(RefreshTokenDto refreshTokenRequest) {
-        RefreshToken refreshToken = RefreshToken.createRefreshToken(refreshTokenRequest);
+    public Long createRefreshToken(RefreshTokenDto refreshTokenDto) {
+        RefreshToken refreshToken = RefreshToken.createRefreshToken(refreshTokenDto);
         refreshTokenRepository.save(refreshToken);
         return refreshToken.getUserId();
     }
