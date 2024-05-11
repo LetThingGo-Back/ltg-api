@@ -2,20 +2,23 @@ package com.letthinggo.ltgapi.controller;
 
 import com.letthinggo.ltgapi.data.dto.UserResponseTestDto;
 import com.letthinggo.ltgapi.data.dto.UserRequestTestDto;
+import com.letthinggo.ltgapi.response.ApiResponse;
 import com.letthinggo.ltgapi.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequiredArgsConstructor
@@ -24,18 +27,22 @@ import java.util.List;
 public class UserTestController {
 
     private final UserService userService;
-
-    @Operation(summary = "사용자 정보 조회 테스트 API", description = "사용자 정보 조회를 합니다.")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "OK !!"),
-            @ApiResponse(responseCode = "400", description = "BAD REQUEST !!"),
-            @ApiResponse(responseCode = "404", description = "USER NOT FOUND!!"),
-            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR!!"),
-    })
     @GetMapping("/users")
-    public ResponseEntity retrieveUserTest(@RequestBody UserRequestTestDto userRequestDto){
-        List<UserResponseTestDto>  rtnVo = userService.findUserTest(userRequestDto);
-        return ResponseEntity.status(HttpStatus.OK).body(rtnVo);
+    public ResponseEntity retrieveAllUsers(){
+        List<UserResponseTestDto> testDto = userService.findAllTest();
+        EntityModel entityModel = EntityModel.of(ApiResponse.createSuccess(testDto));
+        WebMvcLinkBuilder linkTo = linkTo(methodOn(this.getClass()).retrieveAllUsers());
+        entityModel.add(linkTo.withSelfRel());
+        return ResponseEntity.ok(entityModel);
+    }
+    @Operation(summary = "사용자 정보 조회 테스트 API", description = "아이디로 사용자 정보 조회를 합니다.")
+    @GetMapping("/users/{id}")
+    public ResponseEntity retrieveUserTest(@Parameter(description = "사용자 ID", required = true, example = "24")
+                                                                    @PathVariable Long id) throws Exception{
+        EntityModel entityModel = EntityModel.of(ApiResponse.createSuccess(userService.findUserTest(id)));
+        WebMvcLinkBuilder linTo = linkTo(methodOn(this.getClass()).retrieveAllUsers());
+        entityModel.add(linTo.withRel("all-users")); // all-users -> http://localhost:8080/users
+        return ResponseEntity.ok(entityModel);
     }
 
 }

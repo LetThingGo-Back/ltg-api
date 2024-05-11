@@ -29,6 +29,17 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
                 .fetch();
     }
 
+    @Override
+    public List<UserResponseTestDto> searchAll() {
+        return queryFactory
+                .select(new QUserResponseTestDto(
+                        users.id,
+                        users.nickname,
+                        users.email))
+                .from(users)
+                .fetch();
+    }
+
     private BooleanExpression nicknameEq(String nickname) {
         return isEmpty(nickname) ? null : users.nickname.eq(nickname);
     }
