@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface UserRepositoryCustom {
     List<UserResponseTestDto> search(UserRequestTestDto userRequestDto);
+    List<UserResponseTestDto> searchAll();
 }

@@ -1,4 +1,4 @@
-package com.letthinggo.ltgapi.handler;
+package com.letthinggo.ltgapi.exception;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

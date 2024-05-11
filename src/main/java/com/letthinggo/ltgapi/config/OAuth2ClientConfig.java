@@ -1,7 +1,7 @@
 package com.letthinggo.ltgapi.config;
 
-import com.letthinggo.ltgapi.handler.CustomAccessDeniedHandler;
-import com.letthinggo.ltgapi.handler.CustomAuthenticationEntryPoint;
+import com.letthinggo.ltgapi.exception.CustomAccessDeniedHandler;
+import com.letthinggo.ltgapi.exception.CustomAuthenticationEntryPoint;
 import com.letthinggo.ltgapi.jwt.JwtFilter;
 import com.letthinggo.ltgapi.handler.CustomSuccessHandler;
 import com.letthinggo.ltgapi.service.CustomOAuth2UserService;
@@ -70,9 +70,10 @@ public class OAuth2ClientConfig {
                 .requestMatchers("/", "/reissue")
                 .permitAll()
                 .anyRequest().authenticated())
-                .exceptionHandling(c ->c.authenticationEntryPoint(customAuthenticationEntryPoint)
-                        .accessDeniedHandler(customAccessDeniedHandler)
-                );
+//                .exceptionHandling(c ->c.authenticationEntryPoint(customAuthenticationEntryPoint)
+//                        .accessDeniedHandler(customAccessDeniedHandler)
+//                )
+            ;
         http.oauth2Login(oauth2 -> oauth2
                 .successHandler(customSuccessHandler)
                 .userInfoEndpoint(
