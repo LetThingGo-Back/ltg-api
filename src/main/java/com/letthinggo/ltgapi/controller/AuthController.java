@@ -1,14 +1,12 @@
 package com.letthinggo.ltgapi.controller;
 
-import com.letthinggo.ltgapi.data.dto.TokenDto;
-import com.letthinggo.ltgapi.data.dto.UserCreateDto;
+import com.letthinggo.ltgapi.data.dto.TokenResponseDto;
+import com.letthinggo.ltgapi.data.dto.TokenRequestDto;
 import com.letthinggo.ltgapi.response.ApiCommonResponse;
 import com.letthinggo.ltgapi.service.SocialLoginService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -48,8 +46,8 @@ public class AuthController {
     )
     @Parameters({@Parameter(name = "provider", description = "Name of provider", example = "kakao, naver, google")})
     @PostMapping("/v1/oauth/{provider}")
-    public ResponseEntity login(@PathVariable String provider, @RequestBody UserCreateDto userCreateDto, HttpServletResponse response) {
-        TokenDto token = socialLoginService.login(provider, userCreateDto.getCode());
+    public ResponseEntity login(@PathVariable String provider, @RequestBody TokenRequestDto tokenRequestDto, HttpServletResponse response) {
+        TokenResponseDto token = socialLoginService.login(provider, tokenRequestDto.getExternalToken());
         response.setHeader("accessToken", "Bearer " + token.getAccessToken());
         response.addCookie(createCookie("refreshToken", token.getRefreshToken()));
         EntityModel entityModel = EntityModel.of(ApiCommonResponse.createSuccessWithNoContent());
