@@ -1,4 +1,4 @@
-package com.letthinggo.ltgapi.converters;
+package com.letthinggo.ltgapi.social.converters;
 
 import com.letthinggo.ltgapi.data.entity.Users;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;

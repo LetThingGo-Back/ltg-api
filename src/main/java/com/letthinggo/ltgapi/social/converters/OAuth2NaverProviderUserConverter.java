@@ -1,9 +1,9 @@
-package com.letthinggo.ltgapi.converters;
+package com.letthinggo.ltgapi.social.converters;
 
 import com.letthinggo.ltgapi.data.entity.SocialLoginCode;
 import com.letthinggo.ltgapi.social.dto.NaverUser;
 import com.letthinggo.ltgapi.social.dto.ProviderUser;
-import com.letthinggo.ltgapi.util.OAuth2Util;
+import com.letthinggo.ltgapi.social.util.OAuth2Util;
 
 public final class OAuth2NaverProviderUserConverter implements ProviderUserConverter<ProviderUserRequest,ProviderUser> {
     @Override

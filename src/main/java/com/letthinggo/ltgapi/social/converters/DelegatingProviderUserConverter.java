@@ -1,4 +1,4 @@
-package com.letthinggo.ltgapi.converters;
+package com.letthinggo.ltgapi.social.converters;
 
 import com.letthinggo.ltgapi.social.dto.ProviderUser;
 import org.springframework.lang.Nullable;
@@ -18,7 +18,8 @@ public class DelegatingProviderUserConverter implements ProviderUserConverter<Pr
 
         List<ProviderUserConverter<ProviderUserRequest,ProviderUser>> providerUserConverters = Arrays.asList(
                 new OAuth2GoogleProviderUserConverter(),
-                new OAuth2NaverProviderUserConverter());
+                new OAuth2NaverProviderUserConverter(),
+                new OAuth2KakaoProviderUserConverter());
 
         this.converters = Collections.unmodifiableList(new LinkedList<>(providerUserConverters));
     }

@@ -1,7 +1,7 @@
-package com.letthinggo.ltgapi.social;
+package com.letthinggo.ltgapi.social.service;
 
-import com.letthinggo.ltgapi.converters.ProviderUserConverter;
-import com.letthinggo.ltgapi.converters.ProviderUserRequest;
+import com.letthinggo.ltgapi.social.converters.ProviderUserConverter;
+import com.letthinggo.ltgapi.social.converters.ProviderUserRequest;
 import com.letthinggo.ltgapi.data.dto.UserDto;
 import com.letthinggo.ltgapi.data.entity.SocialLogin;
 import com.letthinggo.ltgapi.data.entity.SocialLoginCode;
@@ -13,8 +13,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 @Getter
