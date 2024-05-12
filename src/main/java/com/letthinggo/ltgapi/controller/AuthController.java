@@ -2,8 +2,10 @@ package com.letthinggo.ltgapi.controller;
 
 import com.letthinggo.ltgapi.data.dto.TokenResponseDto;
 import com.letthinggo.ltgapi.data.dto.TokenRequestDto;
+import com.letthinggo.ltgapi.jwt.JwtUtil;
 import com.letthinggo.ltgapi.response.ApiCommonResponse;
 import com.letthinggo.ltgapi.service.SocialLoginService;
+import com.letthinggo.ltgapi.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -12,6 +14,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,6 +30,8 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name="auth-controller", description = "소셜 로그인 서비스를 위한 컨트롤러입니다.")
 public class AuthController {
     private final SocialLoginService socialLoginService;
+    private final UserService userService;
+    private final JwtUtil jwtUtil;
 
 
 //    @GetMapping("/api/users")
@@ -46,13 +51,13 @@ public class AuthController {
     )
     @Parameters({@Parameter(name = "provider", description = "Name of provider", example = "kakao, naver, google")})
     @PostMapping("/v1/oauth/{provider}")
-    public ResponseEntity login(@PathVariable String provider, @RequestBody TokenRequestDto tokenRequestDto, HttpServletResponse response) {
+    public ResponseEntity login(@PathVariable String provider, @Valid @RequestBody TokenRequestDto tokenRequestDto, HttpServletResponse response)  throws Exception{
         TokenResponseDto token = socialLoginService.login(provider, tokenRequestDto.getExternalToken());
+        Long userId = jwtUtil.getUserId(token.getAccessToken());
+        EntityModel entityModel = EntityModel.of(ApiCommonResponse.createSuccess(userService.findOne(userId)));
         response.setHeader("accessToken", "Bearer " + token.getAccessToken());
         response.addCookie(createCookie("refreshToken", token.getRefreshToken()));
-        EntityModel entityModel = EntityModel.of(ApiCommonResponse.createSuccessWithNoContent());
-        return ResponseEntity.ok(entityModel)
-                ;
+        return ResponseEntity.ok(entityModel);
     }
     private Cookie createCookie(String key, String value) {
         Cookie cookie = new Cookie(key, value);

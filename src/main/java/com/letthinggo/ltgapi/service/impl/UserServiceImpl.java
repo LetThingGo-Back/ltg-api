@@ -1,6 +1,7 @@
 package com.letthinggo.ltgapi.service.impl;
 
 import com.letthinggo.ltgapi.data.dto.UserDto;
+import com.letthinggo.ltgapi.data.dto.UserResponse;
 import com.letthinggo.ltgapi.data.dto.UserResponseTestDto;
 import com.letthinggo.ltgapi.data.dto.UserRequestTestDto;
 import com.letthinggo.ltgapi.data.entity.SocialLogin;
@@ -43,6 +44,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserResponseTestDto> findAllTest() {
         return userRepository.searchAll();
+    }
+
+    @Override
+    public UserResponse findOne(Long id) throws Exception{
+        Optional<Users> user = userRepository.findById(id);
+        if(!user.isPresent()){
+            throw new Exception(String.format("ID[%s] not found", id)); // TODO: 추후 다시 수정
+        }
+        return UserResponse.builder().user(user.get()).build();
     }
 
     @Transactional

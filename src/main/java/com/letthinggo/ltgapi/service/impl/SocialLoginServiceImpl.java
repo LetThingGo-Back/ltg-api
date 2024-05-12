@@ -6,7 +6,7 @@ import com.letthinggo.ltgapi.data.dto.TokenResponseDto;
 import com.letthinggo.ltgapi.data.repository.SocialLoginRepository;
 import com.letthinggo.ltgapi.jwt.JwtUtil;
 import com.letthinggo.ltgapi.service.RefreshTokenService;
-import com.letthinggo.ltgapi.social.CustomOAuth2UserService;
+import com.letthinggo.ltgapi.social.service.CustomOAuth2UserService;
 import com.letthinggo.ltgapi.service.SocialLoginService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;

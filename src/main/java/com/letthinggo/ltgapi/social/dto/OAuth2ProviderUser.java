@@ -35,6 +35,10 @@ public abstract class OAuth2ProviderUser implements ProviderUser{
         return clientRegistration.getRegistrationId().toUpperCase();
     }
 
+    public String getKaKaoId(){
+//        return oAuth2User.get
+        return null;
+    }
 
     @Override
     public List<? extends GrantedAuthority> getAuthorities() {

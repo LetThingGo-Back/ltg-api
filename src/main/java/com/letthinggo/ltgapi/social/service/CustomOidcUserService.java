@@ -1,6 +1,6 @@
-package com.letthinggo.ltgapi.social;
+package com.letthinggo.ltgapi.social.service;
 
-import com.letthinggo.ltgapi.converters.ProviderUserRequest;
+import com.letthinggo.ltgapi.social.converters.ProviderUserRequest;
 import com.letthinggo.ltgapi.social.dto.ProviderUser;
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserService;
