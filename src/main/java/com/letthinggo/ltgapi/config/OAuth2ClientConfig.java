@@ -67,7 +67,7 @@ public class OAuth2ClientConfig {
 //                .hasRole("OAUTH2_USER")
 //                .requestMatchers("/api/oidc")
 //                .hasRole("OIDC_USER")
-                .requestMatchers("/", "/reissue", "/v1/oauth/**")
+                .requestMatchers("/", "/reissue", "/v1/oauth/**", "/**") // TODO: 추후에 다시 수정
                 .permitAll()
                 .anyRequest().authenticated())
 //                .exceptionHandling(c ->c.authenticationEntryPoint(customAuthenticationEntryPoint)
