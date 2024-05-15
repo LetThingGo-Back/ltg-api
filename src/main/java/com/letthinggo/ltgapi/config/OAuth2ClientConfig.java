@@ -3,7 +3,7 @@ package com.letthinggo.ltgapi.config;
 import com.letthinggo.ltgapi.exception.CustomAccessDeniedHandler;
 import com.letthinggo.ltgapi.exception.CustomAuthenticationEntryPoint;
 import com.letthinggo.ltgapi.jwt.JwtFilter;
-import com.letthinggo.ltgapi.handler.CustomSuccessHandler;
+import com.letthinggo.ltgapi.social.handler.CustomSuccessHandler;
 import com.letthinggo.ltgapi.social.service.CustomOAuth2UserService;
 import com.letthinggo.ltgapi.social.service.CustomOidcUserService;
 import com.letthinggo.ltgapi.jwt.JwtUtil;
@@ -39,7 +39,7 @@ public class OAuth2ClientConfig {
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring().requestMatchers(
-//                 "/test/**",
+                 "/test/**",
                 "/swagger-ui.html", "/swagger-ui/**", "/api-docs", "/api-docs/**");
     }
     // CORS 설정
@@ -64,17 +64,15 @@ public class OAuth2ClientConfig {
             .httpBasic(HttpBasicConfigurer::disable); //HTTP Basic 인증 방식 disable
         http.addFilterBefore(new JwtFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
         http.authorizeHttpRequests((requests) -> requests
-//                .requestMatchers("/api/users")
-//                .hasRole("OAUTH2_USER")
-//                .requestMatchers("/api/oidc")
-//                .hasRole("OIDC_USER")
+//                        .requestMatchers("/test/users/**").hasRole("ADMIN")
+//                        .requestMatchers("/test/users").hasRole("USER")
                 .requestMatchers("/", "/v1/reissue", "/v1/oauth/**", "/**") // TODO: 추후에 다시 수정
 //                .requestMatchers("/", "/v1/reissue", "/v1/oauth/**") // TODO: 추후에 다시 수정
                 .permitAll()
                 .anyRequest().authenticated())
-//                .exceptionHandling(c ->c.authenticationEntryPoint(customAuthenticationEntryPoint)
-//                        .accessDeniedHandler(customAccessDeniedHandler)
-//                )
+                .exceptionHandling(c ->c.authenticationEntryPoint(customAuthenticationEntryPoint)
+                        .accessDeniedHandler(customAccessDeniedHandler)
+                )
             ;
         http.oauth2Login(oauth2 -> oauth2
                 .successHandler(customSuccessHandler)
