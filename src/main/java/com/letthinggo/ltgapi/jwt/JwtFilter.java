@@ -1,7 +1,7 @@
 package com.letthinggo.ltgapi.jwt;
 
-import com.letthinggo.ltgapi.data.dto.CustomOAuth2User;
 import com.letthinggo.ltgapi.data.dto.UserDto;
+import com.letthinggo.ltgapi.social.dto.CustomOAuth2User;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -24,7 +24,7 @@ public class JwtFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
         String accessToken = request.getHeader("accessToken");
-
+        System.out.println("여기오나??");
         // accessToken이 없다면
         if(accessToken == null) {
             filterChain.doFilter(request, response);

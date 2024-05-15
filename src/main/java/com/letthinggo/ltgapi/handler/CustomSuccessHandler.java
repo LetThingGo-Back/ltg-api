@@ -1,12 +1,10 @@
 package com.letthinggo.ltgapi.handler;
 
 
-import com.letthinggo.ltgapi.data.dto.CustomOAuth2User;
 import com.letthinggo.ltgapi.data.dto.RefreshTokenDto;
-import com.letthinggo.ltgapi.data.entity.SocialLoginCode;
 import com.letthinggo.ltgapi.service.RefreshTokenService;
-import com.letthinggo.ltgapi.service.SocialLoginService;
 import com.letthinggo.ltgapi.jwt.JwtUtil;
+import com.letthinggo.ltgapi.social.dto.CustomOAuth2User;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -15,18 +13,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
-import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Collection;
-import java.util.Date;
 
 @Component
 @RequiredArgsConstructor
@@ -52,8 +46,6 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         // TODO: 추후에 redis로 변경
         RefreshTokenDto refreshTokenDto = new RefreshTokenDto();
         refreshTokenDto.setUserId(oAuth2User.getUserId());
-        refreshTokenDto.setSocialCode(oAuth2User.getSocialCode());
-        refreshTokenDto.setExternalId(oAuth2User.getExternalId());
         refreshTokenDto.setRefreshToken(refreshToken);
         refreshTokenDto.setExpirationDate(LocalDateTime.ofInstant(Instant.ofEpochMilli(System.currentTimeMillis() + 2592000000L), ZoneId.systemDefault()));
         refreshTokenService.createRefreshToken(refreshTokenDto);
