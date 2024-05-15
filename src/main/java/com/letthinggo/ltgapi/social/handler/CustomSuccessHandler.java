@@ -1,4 +1,4 @@
-package com.letthinggo.ltgapi.handler;
+package com.letthinggo.ltgapi.social.handler;
 
 
 import com.letthinggo.ltgapi.data.dto.RefreshTokenDto;
