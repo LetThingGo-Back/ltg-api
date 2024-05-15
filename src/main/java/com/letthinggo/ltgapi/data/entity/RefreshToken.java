@@ -20,7 +20,7 @@ public class RefreshToken {
 
     @MapsId(value = "userId")
     @OneToOne(targetEntity = Users.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "USER_ID")
+    @JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID")
     private Users user;
 
     @Column(name="REFRESH_TOKEN")

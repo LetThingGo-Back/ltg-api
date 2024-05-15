@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -59,6 +60,26 @@ public class AuthController {
         response.addCookie(createCookie("refreshToken", token.getRefreshToken()));
         return ResponseEntity.ok(entityModel);
     }
+
+    @Operation(summary = "토큰 재발급 API", description = "access토큰 만료되면 refresh 토큰을 이용하여 토큰을 재발급합니다.")
+    @PostMapping("/v1/reissue")
+    public ResponseEntity reissue(HttpServletRequest request, HttpServletResponse response) throws Exception{
+        // get refreshToken
+        String refreshToken = "";
+        Cookie[] cookies = request.getCookies();
+        for(Cookie cookie : cookies) {
+            if(cookie.getName().equals("refreshToken")) {
+                refreshToken = cookie.getValue();
+            }
+        }
+        TokenResponseDto token = socialLoginService.reissue(refreshToken);
+        EntityModel entityModel = EntityModel.of(ApiCommonResponse.createSuccessWithNoContent());
+        response.setHeader("accessToken", "Bearer " + token.getAccessToken());
+        response.addCookie(createCookie("refreshToken", token.getRefreshToken()));
+        return ResponseEntity.ok(entityModel);
+    }
+
+
     private Cookie createCookie(String key, String value) {
         Cookie cookie = new Cookie(key, value);
         cookie.setMaxAge(30 * 24 * 60 * 60); // 30일
