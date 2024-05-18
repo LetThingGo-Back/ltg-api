@@ -7,6 +7,7 @@ import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.List;
+import java.util.Map;
 
 @Data
 public class UserDto {
@@ -20,10 +21,12 @@ public class UserDto {
     private String username;
     private List<? extends GrantedAuthority> authorities;
 
+    Map<String, String> allowedServiceTerms; //동의약관리스트
     public UserDto(){
 
     }
-    public UserDto(ProviderUser providerUser) {
+    public UserDto(ProviderUser providerUser, String accessToken) {
+        this.allowedServiceTerms = providerUser.getAllowedServiceTerms(accessToken);
         this.socialCode = SocialLoginCode.valueOf(providerUser.getProvider());
         this.externalId = providerUser.getId();
         this.email = providerUser.getEmail();

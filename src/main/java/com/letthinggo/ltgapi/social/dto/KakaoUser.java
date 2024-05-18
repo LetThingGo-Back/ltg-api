@@ -34,6 +34,11 @@ public class KakaoUser extends OAuth2ProviderUser {
     }
 
     @Override
+    public Map<String, String> getAllowedServiceTerms(String accessToken) {
+        return null;
+    }
+
+    @Override
     public String getEmail() {
         return(String)subAttributes.get("email");
     }

@@ -40,7 +40,7 @@ public class OAuth2ClientConfig {
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring().requestMatchers(
                  "/test/**",
-                "/swagger-ui.html", "/swagger-ui/**", "/api-docs", "/api-docs/**");
+                "/swagger-ui.html", "/swagger-ui/**", "/api-docs", "/api-docs/**", "/clauseNew/**");
     }
     // CORS 설정
     CorsConfigurationSource corsConfigurationSource() {

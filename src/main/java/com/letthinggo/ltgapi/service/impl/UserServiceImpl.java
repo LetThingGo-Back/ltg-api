@@ -5,9 +5,13 @@ import com.letthinggo.ltgapi.data.dto.UserResponse;
 import com.letthinggo.ltgapi.data.dto.UserResponseTestDto;
 import com.letthinggo.ltgapi.data.dto.UserRequestTestDto;
 import com.letthinggo.ltgapi.data.entity.SocialLogin;
+import com.letthinggo.ltgapi.data.entity.Terms;
+import com.letthinggo.ltgapi.data.entity.UserTerms;
 import com.letthinggo.ltgapi.data.entity.Users;
 import com.letthinggo.ltgapi.data.repository.SocialLoginRepository;
+import com.letthinggo.ltgapi.data.repository.TermsRepository;
 import com.letthinggo.ltgapi.data.repository.UserRepository;
+import com.letthinggo.ltgapi.data.repository.UserTermsRepository;
 import com.letthinggo.ltgapi.exception.ErrorCode;
 import com.letthinggo.ltgapi.exception.UserNotFoundException;
 import com.letthinggo.ltgapi.service.UserService;
@@ -27,6 +31,8 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final SocialLoginRepository socialLoginRepository;
 
+    private final UserTermsRepository userTermsRepository;
+    private final TermsRepository termsRepository;
     /**
      * 테스트용 사용 안함
      * @param userRequestDto
@@ -61,11 +67,17 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public UserDto createUser(UserDto userDto) {
+        // 1. 사용자 정보 생성
         Users user = Users.createUsers(userDto);
         userRepository.save(user);
+        // 2. 소셜로그인 정보 생성
         SocialLogin socialLogin = SocialLogin.createSocialLogin(userDto, user);
         socialLoginRepository.save(socialLogin);
         userDto.setUserId(user.getId());
+        List<Terms> terms = termsRepository.findByUseYn ("Y");
+        // 3. 약관 동의 정보 생성
+        List<UserTerms> userTerms = UserTerms.createUserTerms(userDto.getAllowedServiceTerms(), user, terms);
+        userTermsRepository.saveAll(userTerms);
         return userDto;
     }
 

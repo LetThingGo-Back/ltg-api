@@ -3,6 +3,8 @@ package com.letthinggo.ltgapi.social.dto;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
+import java.util.Map;
+
 public class GoogleUser extends OAuth2ProviderUser{
 
     public GoogleUser(Attributes attributes, OAuth2User oAuth2User, ClientRegistration clientRegistration){
@@ -23,5 +25,11 @@ public class GoogleUser extends OAuth2ProviderUser{
     public String getNickname() {
         return (String)getAttributes().get("name");
     }
+
+    @Override
+    public Map<String, String> getAllowedServiceTerms(String accessToken) {
+        return null;
+    }
+
 
 }

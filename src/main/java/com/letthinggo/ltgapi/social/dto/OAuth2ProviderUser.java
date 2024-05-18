@@ -20,6 +20,7 @@ public abstract class OAuth2ProviderUser implements ProviderUser{
         this.oAuth2User = oAuth2User;
         this.clientRegistration = clientRegistration;
     }
+
     @Override
     public String getPassword() {
         return UUID.randomUUID().toString();

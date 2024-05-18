@@ -27,7 +27,8 @@ public abstract class AbstractOAuth2UserService {
     private ProviderUserConverter<ProviderUserRequest, ProviderUser> providerUserConverter;
     public UserDto register(ProviderUser providerUser, OAuth2UserRequest userRequest){
         SocialLogin socialLogin = socialLoginRepository.findBySocialCodeAndExternalId(SocialLoginCode.valueOf(providerUser.getProvider()), providerUser.getId());
-        UserDto userDto = new UserDto(providerUser);
+        String accessToken = "";
+        UserDto userDto = new UserDto(providerUser,  userRequest.getAccessToken().getTokenValue());
         if(socialLogin == null){
             return userService.createUser(userDto);
         }

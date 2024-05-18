@@ -14,6 +14,8 @@ public interface ProviderUser {
     public String getNickname();
     public String getProvider();
 
+    public  Map<String, String> getAllowedServiceTerms(String accessToken);
+
     public List<? extends GrantedAuthority> getAuthorities();
     public Map<String, Object> getAttributes();
 }
