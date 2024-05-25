@@ -6,6 +6,8 @@ import com.letthinggo.ltgapi.data.dto.UserDto;
 import com.letthinggo.ltgapi.data.entity.RefreshToken;
 import com.letthinggo.ltgapi.data.repository.RefreshTokenRepository;
 import com.letthinggo.ltgapi.data.repository.SocialLoginRepository;
+import com.letthinggo.ltgapi.exception.CommonException;
+import com.letthinggo.ltgapi.exception.ErrorCode;
 import com.letthinggo.ltgapi.jwt.JwtUtil;
 import com.letthinggo.ltgapi.service.RefreshTokenService;
 import com.letthinggo.ltgapi.social.dto.Authority;
@@ -15,7 +17,6 @@ import com.letthinggo.ltgapi.service.SocialLoginService;
 
 import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -35,7 +36,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class SocialLoginServiceImpl implements SocialLoginService {
     private final SocialLoginRepository socialLoginRepository;
-
     private final RefreshTokenRepository refreshTokenRepository;
     private final CustomOAuth2UserService customOAuth2UserService;
     private final InMemoryClientRegistrationRepository inMemoryRepository;
@@ -56,18 +56,18 @@ public class SocialLoginServiceImpl implements SocialLoginService {
     public TokenResponseDto reissue(String refreshToken) throws Exception {
         // refreshToken이 null인 경우
         if(StringUtils.isBlank(refreshToken)) {
-            throw new Exception("refresh token null"); // TODO: 추후 다시 수정
+            throw new CommonException(ErrorCode.REFRESH_TOKEN_NULL);
         }
         // 유효기간 확인
         if(jwtUtil.isExpired(refreshToken)) {
-            throw new Exception("refresh token expired");
+            throw new CommonException(ErrorCode.REFRESH_TOKEN_EXPIRED);
         }
 
         // 토큰이 refresh인지 확인
         String category = jwtUtil.getCatgory(refreshToken);
 
         if(!"refresh".equals(category)) {
-            throw new Exception("invalid refresh token");
+            throw new CommonException(ErrorCode.INVAILD_REFRESH_TOKEN);
         }
 
         Long userId = jwtUtil.getUserId(refreshToken);
@@ -75,10 +75,10 @@ public class SocialLoginServiceImpl implements SocialLoginService {
 
         Optional<RefreshToken> oldRefreshToken= refreshTokenRepository.findByUserId(userId);
         if(!oldRefreshToken.isPresent()){
-            throw new Exception("invalid refresh token");
+            throw new CommonException(ErrorCode.INVAILD_REFRESH_TOKEN);
         }
-        if(refreshToken.equals(oldRefreshToken.get().getRefreshToken())){
-            throw new Exception("no exists in database");
+        if(!refreshToken.equals(oldRefreshToken.get().getRefreshToken())){
+            throw new CommonException(ErrorCode.REFRESH_TOKEN_NOT_FOUND);
         }
         UserDto userDto = new UserDto();
         userDto.setUserId(userId);

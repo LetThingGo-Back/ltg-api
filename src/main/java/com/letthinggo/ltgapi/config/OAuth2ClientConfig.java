@@ -1,5 +1,6 @@
 package com.letthinggo.ltgapi.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.letthinggo.ltgapi.exception.CustomAccessDeniedHandler;
 import com.letthinggo.ltgapi.exception.CustomAuthenticationEntryPoint;
 import com.letthinggo.ltgapi.jwt.JwtFilter;
@@ -29,6 +30,8 @@ import java.util.Collections;
 @EnableWebSecurity
 public class OAuth2ClientConfig {
     private final JwtUtil jwtUtil;
+
+    private final ObjectMapper objectMapper;
     private final CustomSuccessHandler customSuccessHandler;
     private final CustomOAuth2UserService customOAuth2UserService;
     private final CustomOidcUserService customOidcUserService;
@@ -39,7 +42,7 @@ public class OAuth2ClientConfig {
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring().requestMatchers(
-                 "/test/**",
+//                 "/test/users/**",
                 "/swagger-ui.html", "/swagger-ui/**", "/api-docs", "/api-docs/**", "/clauseNew/**");
     }
     // CORS 설정
@@ -62,12 +65,12 @@ public class OAuth2ClientConfig {
             .csrf(AbstractHttpConfigurer::disable) //csrf disable
             .formLogin(AbstractHttpConfigurer::disable) //From 로그인 방식 disable
             .httpBasic(HttpBasicConfigurer::disable); //HTTP Basic 인증 방식 disable
-        http.addFilterBefore(new JwtFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new JwtFilter(jwtUtil, objectMapper), UsernamePasswordAuthenticationFilter.class);
         http.authorizeHttpRequests((requests) -> requests
 //                        .requestMatchers("/test/users/**").hasRole("ADMIN")
 //                        .requestMatchers("/test/users").hasRole("USER")
-                .requestMatchers("/", "/v1/reissue", "/v1/oauth/**", "/**") // TODO: 추후에 다시 수정
-//                .requestMatchers("/", "/v1/reissue", "/v1/oauth/**") // TODO: 추후에 다시 수정
+//                .requestMatchers("/", "/v1/reissue", "/v1/oauth/**", "/**") // TODO: 추후에 다시 수정
+                .requestMatchers("/", "/v1/reissue", "/v1/oauth/**") // TODO: 추후에 다시 수정
                 .permitAll()
                 .anyRequest().authenticated())
                 .exceptionHandling(c ->c.authenticationEntryPoint(customAuthenticationEntryPoint)

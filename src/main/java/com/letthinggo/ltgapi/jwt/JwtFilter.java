@@ -1,6 +1,9 @@
 package com.letthinggo.ltgapi.jwt;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.letthinggo.ltgapi.data.dto.UserDto;
+import com.letthinggo.ltgapi.exception.ErrorCode;
+import com.letthinggo.ltgapi.response.ApiCommonResponse;
 import com.letthinggo.ltgapi.social.dto.CustomOAuth2User;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
@@ -8,6 +11,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,13 +24,13 @@ import java.io.PrintWriter;
 @RequiredArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {
     private final JwtUtil jwtUtil;
-
+    private final ObjectMapper objectMapper;
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-        String accessToken = request.getHeader("accessToken");
+        String accessToken = request.getHeader("Authorization");
         // accessToken이 없다면
-        if(accessToken == null) {
+        if(accessToken == null || !accessToken.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -36,27 +41,21 @@ public class JwtFilter extends OncePerRequestFilter {
         // Token 만료 확인
         try {
             if(jwtUtil.isExpired(originToken)) {
-                PrintWriter writer = response.getWriter();
-                writer.println("access token expired");
-
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.setStatus(HttpStatus.OK.value());
+                response.getWriter().write(objectMapper.writeValueAsString(ApiCommonResponse.createErrorWithCode(ErrorCode.ACCESS_TOKEN_EXPIRED)));
                 return;
             }
         } catch (ExpiredJwtException e) {
-            PrintWriter writer = response.getWriter();
-            writer.println("access token expired");
-
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setStatus(HttpStatus.OK.value());
+            response.getWriter().write(objectMapper.writeValueAsString(ApiCommonResponse.createErrorWithCode(ErrorCode.ACCESS_TOKEN_EXPIRED)));
             return;
         }
 
         String category = jwtUtil.getCatgory(originToken);
 
         if(!category.equals("access")) {
-            PrintWriter writer = response.getWriter();
-            writer.println("invalid access token");
-
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setStatus(HttpStatus.OK.value());
+            response.getWriter().write(objectMapper.writeValueAsString(ApiCommonResponse.createErrorWithCode(ErrorCode.INVAILD_ACCESS_TOKEN)));
             return;
         }
 

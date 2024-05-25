@@ -8,6 +8,7 @@ import com.letthinggo.ltgapi.response.ApiCommonResponse;
 import com.letthinggo.ltgapi.service.SocialLoginService;
 import com.letthinggo.ltgapi.service.UserService;
 import com.letthinggo.ltgapi.social.dto.CustomOAuth2User;
+import com.letthinggo.ltgapi.util.CookieUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -34,8 +35,8 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         try {
             token = socialLoginService.createJwtToken(oAuth2User);
             UserResponseDto userResponse = userService.findOne(oAuth2User.getUserId());
-            response.setHeader("accessToken", "Bearer " +  token.getAccessToken());
-            response.addCookie(createCookie("refreshToken", token.getRefreshToken()));
+            response.setHeader("Authorization", "Bearer " +  token.getAccessToken());
+            response.addCookie(CookieUtil.createCookie("refreshToken", token.getRefreshToken()));
             response.setStatus(HttpStatus.OK.value());
             response.getWriter().write(objectMapper.writeValueAsString(ApiCommonResponse.createSuccess(userResponse)));
             response.sendRedirect("https://letthinggo.com");       // TODO: 로그인 성공시 프론트 redirect 경로
@@ -43,16 +44,6 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             throw new RuntimeException(e);
         }
 
-    }
-
-    private Cookie createCookie(String key, String value) {
-        Cookie cookie = new Cookie(key, value);
-        cookie.setMaxAge(30 * 24 * 60 * 60); // 30일
-        /*cookie.setSecure();*/         // https 설정
-        /*cookie.setPath("/");*/
-        cookie.setHttpOnly(true);
-
-        return cookie;
     }
 
 }

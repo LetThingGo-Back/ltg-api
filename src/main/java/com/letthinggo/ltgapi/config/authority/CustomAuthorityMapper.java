@@ -1,4 +1,4 @@
-package com.letthinggo.ltgapi.authority;
+package com.letthinggo.ltgapi.config.authority;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

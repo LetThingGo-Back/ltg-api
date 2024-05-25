@@ -26,7 +26,7 @@ public class ApiCommonResponse<T> {
     private String message;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String code;
+    private Integer code;
 
     public static <T> ApiCommonResponse<T> createSuccess(T data) {
         return ApiCommonResponse.<T>builder()
