@@ -14,7 +14,7 @@ import org.springframework.web.context.request.WebRequest;
 public class CustomizedResponseEntityExceptionHandler {
     @ExceptionHandler(Exception.class)
     public final ResponseEntity<ApiCommonResponse<?>> handleAllExceptions(Exception ex){
-        return ResponseEntity.status(HttpStatus.OK).body(ApiCommonResponse.createError(ErrorCode.INTERNAL_SERVER_ERROR.getMessage()));
+        return ResponseEntity.status(HttpStatus.OK).body(ApiCommonResponse.createError(ex.getMessage()));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

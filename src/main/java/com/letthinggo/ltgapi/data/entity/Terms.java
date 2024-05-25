@@ -16,6 +16,8 @@ public class Terms extends BaseDateTimeBy{
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="TERMS_ID")
     private Long id;
+    @Column(name="TERMS_CODE")
+    private String termsCode;
     @Column(name="TERMS_NAME")
     private String termsName;
     @Column(name="TERMS_CONTENT")
@@ -24,7 +26,7 @@ public class Terms extends BaseDateTimeBy{
     private String reqYn;
     @Column(name="USE_YN")
     private String useYn;
-    @Column(name="TERMS_SATRT_DATE")
+    @Column(name="TERMS_START_DATE")
     private LocalDateTime termsStartDate;
     @Column(name="TERMS_END_DATE")
     private LocalDateTime termsEndDate;

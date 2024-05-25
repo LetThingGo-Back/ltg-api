@@ -36,20 +36,9 @@ public class CustomOAuth2User implements OAuth2User {
 
     @Override
     public String getName() {
-        return userDto.getNickname();
+        return userDto.getUsername();
     }
 
     public Long getUserId() { return userDto.getUserId(); }
 
-    public String getUsername() {
-        return userDto.getUsername();
-    }
-
-    public SocialLoginCode getSocialCode() {
-        return userDto.getSocialCode();
-    }
-
-    public String getExternalId() {
-        return userDto.getExternalId();
-    }
 }
