@@ -26,4 +26,8 @@ public class CustomizedResponseEntityExceptionHandler {
     public final ResponseEntity<ApiCommonResponse<?>> handleUserNotFoundExceptions(UserNotFoundException ex){
         return ResponseEntity.status(HttpStatus.OK).body(ApiCommonResponse.createErrorWithCode(ex.getErrorCode()));
     }
+    @ExceptionHandler(CommonException.class)
+    public final ResponseEntity<ApiCommonResponse<?>> handleCommonExceptions(CommonException ex){
+        return ResponseEntity.status(HttpStatus.OK).body(ApiCommonResponse.createErrorWithCode(ex.getErrorCode()));
+    }
 }

@@ -6,13 +6,13 @@ import com.letthinggo.ltgapi.jwt.JwtUtil;
 import com.letthinggo.ltgapi.response.ApiCommonResponse;
 import com.letthinggo.ltgapi.service.SocialLoginService;
 import com.letthinggo.ltgapi.service.UserService;
+import com.letthinggo.ltgapi.util.CookieUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -22,6 +22,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import static com.letthinggo.ltgapi.util.CookieUtil.*;
 
 
 @RestController
@@ -34,18 +36,6 @@ public class AuthController {
     private final UserService userService;
     private final JwtUtil jwtUtil;
 
-
-//    @GetMapping("/api/users")
-//    public Authentication users(Authentication authentication, @AuthenticationPrincipal OAuth2User oAuth2User) {
-//        System.out.println("authentication = " + authentication + ", oAuth2User = " + oAuth2User);
-//        return authentication;
-//    }
-//
-//    @GetMapping("/api/oidc") // 요청시 scope 에 openid 가 포함되어야 oidcUser 가 생성된다
-//    public Authentication oidc(Authentication authentication, @AuthenticationPrincipal OidcUser oidcUser) {
-//        System.out.println("authentication = " + authentication + ", oidcUser = " + oidcUser);
-//        return authentication;
-//    }
     @Operation(summary = "사용자 로그인 API", description = "로그인")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK")}
@@ -56,7 +46,7 @@ public class AuthController {
         TokenResponseDto token = socialLoginService.login(provider, tokenRequestDto.getExternalToken());
         Long userId = jwtUtil.getUserId(token.getAccessToken());
         EntityModel entityModel = EntityModel.of(ApiCommonResponse.createSuccess(userService.findOne(userId)));
-        response.setHeader("accessToken", "Bearer " + token.getAccessToken());
+        response.setHeader("Authorization", "Bearer " + token.getAccessToken());
         response.addCookie(createCookie("refreshToken", token.getRefreshToken()));
         return ResponseEntity.ok(entityModel);
     }
@@ -64,26 +54,11 @@ public class AuthController {
     @Operation(summary = "토큰 재발급 API", description = "access토큰 만료되면 refresh 토큰을 이용하여 토큰을 재발급합니다.")
     @PostMapping("/v1/reissue")
     public ResponseEntity reissue(HttpServletRequest request, HttpServletResponse response) throws Exception{
-        // get refreshToken
-        String refreshToken = "";
-        Cookie[] cookies = request.getCookies();
-        for(Cookie cookie : cookies) {
-            if(cookie.getName().equals("refreshToken")) {
-                refreshToken = cookie.getValue();
-            }
-        }
+        String refreshToken = getRefreshToken(request.getCookies());
         TokenResponseDto token = socialLoginService.reissue(refreshToken);
         EntityModel entityModel = EntityModel.of(ApiCommonResponse.createSuccessWithNoContent());
-        response.setHeader("accessToken", "Bearer " + token.getAccessToken());
+        response.setHeader("Authorization", "Bearer " + token.getAccessToken());
         response.addCookie(createCookie("refreshToken", token.getRefreshToken()));
         return ResponseEntity.ok(entityModel);
-    }
-
-
-    private Cookie createCookie(String key, String value) {
-        Cookie cookie = new Cookie(key, value);
-        cookie.setMaxAge(30 * 24 * 60 * 60); // 30일
-        cookie.setHttpOnly(true);
-        return cookie;
     }
 }

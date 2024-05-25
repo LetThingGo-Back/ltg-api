@@ -34,7 +34,7 @@ public class UserTestController {
     }
     @Operation(summary = "사용자 정보 조회 테스트 API", description = "아이디로 사용자 정보 조회를 합니다.")
     @GetMapping("/users/{id}")
-    public ResponseEntity retrieveUserTest(@Parameter(description = "사용자 ID", required = true, example = "24")
+    public ResponseEntity retrieveUserTest(@Parameter(description = "사용자 ID", required = true, example = "16")
                                                                     @PathVariable Long id) throws Exception{
         EntityModel entityModel = EntityModel.of(ApiCommonResponse.createSuccess(userService.findUserTest(id)));
         WebMvcLinkBuilder linTo = linkTo(methodOn(this.getClass()).retrieveAllUsers());
