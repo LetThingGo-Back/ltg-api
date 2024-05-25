@@ -8,6 +8,7 @@ import com.letthinggo.ltgapi.data.repository.RefreshTokenRepository;
 import com.letthinggo.ltgapi.data.repository.SocialLoginRepository;
 import com.letthinggo.ltgapi.jwt.JwtUtil;
 import com.letthinggo.ltgapi.service.RefreshTokenService;
+import com.letthinggo.ltgapi.social.dto.Authority;
 import com.letthinggo.ltgapi.social.dto.CustomOAuth2User;
 import com.letthinggo.ltgapi.social.service.CustomOAuth2UserService;
 import com.letthinggo.ltgapi.service.SocialLoginService;
@@ -42,7 +43,7 @@ public class SocialLoginServiceImpl implements SocialLoginService {
     private final RefreshTokenService refreshTokenService;
 
     @Override
-    public TokenResponseDto login(String providerName, String externalToken) {
+    public TokenResponseDto login(String providerName, String externalToken) throws Exception {
         ClientRegistration clientRegistration = inMemoryRepository.findByRegistrationId(providerName);
         OAuth2AccessToken oAuth2AccessToken = new OAuth2AccessToken(OAuth2AccessToken.TokenType.BEARER, externalToken, Instant.now(), Instant.now().plus(Duration.ofMinutes(1)));
         OAuth2UserRequest userRequest = new OAuth2UserRequest(clientRegistration, oAuth2AccessToken);
@@ -88,8 +89,9 @@ public class SocialLoginServiceImpl implements SocialLoginService {
         return createJwtToken(customOAuth2User);
     }
 
-    public TokenResponseDto createJwtToken(CustomOAuth2User oAuth2User) {
-        String role = "ROLE_USER";
+    @Override
+    public TokenResponseDto createJwtToken(CustomOAuth2User oAuth2User) throws Exception {
+        String role = Authority.ROLE_USER.getAuthority();
         String accessToken  = jwtUtil.createJwt("access", oAuth2User.getUserId(), role, 86400000L); // 24 hours
         String refreshToken = jwtUtil.createJwt("refresh", oAuth2User.getUserId(), role, 2592000000L); //30 days
 

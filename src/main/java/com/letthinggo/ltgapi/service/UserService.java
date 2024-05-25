@@ -1,7 +1,7 @@
 package com.letthinggo.ltgapi.service;
 
 import com.letthinggo.ltgapi.data.dto.UserDto;
-import com.letthinggo.ltgapi.data.dto.UserResponse;
+import com.letthinggo.ltgapi.data.dto.UserResponseDto;
 import com.letthinggo.ltgapi.data.dto.UserResponseTestDto;
 
 import java.util.List;
@@ -12,5 +12,5 @@ public interface UserService {
 
     public List<UserResponseTestDto> findAllTest();
 
-    public UserResponse findOne(Long id) throws Exception;
+    public UserResponseDto findOne(Long id) throws Exception;
 }
