@@ -5,6 +5,8 @@ import com.letthinggo.ltgapi.response.ApiCommonResponse;
 import com.letthinggo.ltgapi.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.EntityModel;
@@ -24,6 +26,12 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class UserTestController {
 
     private final UserService userService;
+    @Operation(summary = "사용자 전체 조회 테스트 API", description = "전체 사용자의 정보를 조회합니다.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"
+            )
+    }
+    )
     @GetMapping("/users")
     public ResponseEntity retrieveAllUsers(){
         List<UserResponseTestDto> testDto = userService.findAllTest();

@@ -24,7 +24,11 @@ public enum ErrorCode {
     INVAILD_REFRESH_TOKEN(10105, "Invalid Refresh Token"),
     REFRESH_TOKEN_NULL(10106, "Refresh Token Is Null"),
     ACCESS_TOKEN_EXPIRED( 10107,"Access Token Expired"),
-    INVAILD_ACCESS_TOKEN(10105, "Invalid Access Token"),
+    INVAILD_ACCESS_TOKEN(10108, "Invalid Access Token"),
+
+    INVAILD_SOCIAL_CODE(10108, "소셜로그인코드에 %s가 존재하지 않습니다."),
+
+    INVAILD_SOCIAL_NAME(10108, "%s는 잘못된 provider입니다."),
     /**
      * 사용자 정보 조회 10200 ~ 10299
      */
