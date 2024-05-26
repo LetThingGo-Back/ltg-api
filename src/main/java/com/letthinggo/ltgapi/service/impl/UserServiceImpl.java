@@ -12,6 +12,7 @@ import com.letthinggo.ltgapi.data.repository.SocialLoginRepository;
 import com.letthinggo.ltgapi.data.repository.TermsRepository;
 import com.letthinggo.ltgapi.data.repository.UserRepository;
 import com.letthinggo.ltgapi.data.repository.UserTermsRepository;
+import com.letthinggo.ltgapi.exception.CommonException;
 import com.letthinggo.ltgapi.exception.ErrorCode;
 import com.letthinggo.ltgapi.exception.UserNotFoundException;
 import com.letthinggo.ltgapi.service.UserService;
@@ -59,7 +60,7 @@ public class UserServiceImpl implements UserService {
     public UserResponseDto findOne(Long id) throws Exception{
         Optional<Users> user = userRepository.findById(id);
         if(!user.isPresent()){
-            throw new Exception(String.format("ID[%s] not found", id)); // TODO: 추후 다시 수정
+            throw new CommonException(ErrorCode.USER_NOT_FOUND);
         }
         return UserResponseDto.builder().user(user.get()).build();
     }

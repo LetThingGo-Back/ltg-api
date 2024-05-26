@@ -35,11 +35,11 @@ public class ApiCommonResponse<T> {
                          .build();
     }
 
-    public static <T> ApiCommonResponse<T> createSuccessWithNoContent() {
-        return ApiCommonResponse.<T>builder()
-                .status(SUCCESS.getStatus())
-                .build();
-    }
+//    public static <T> ApiCommonResponse<T> createSuccessWithNoContent() {
+//        return ApiCommonResponse.<T>builder()
+//                .status(SUCCESS.getStatus())
+//                .build();
+//    }
 
     // Hibernate Validator에 의해 유효하지 않은 데이터로 인해 API 호출이 거부될때 반환
     public static ApiCommonResponse<?> createFail(BindingResult bindingResult) {
@@ -68,11 +68,18 @@ public class ApiCommonResponse<T> {
                 .build();
     }
 
-    public static ApiCommonResponse<?> createErrorWithCode(ErrorCode errorCode) {
+    public static ApiCommonResponse<?> createErrorWithCode(Integer code, String message) {
         return ApiCommonResponse.builder()
                 .status(ERROR.getStatus())
-                .message(errorCode.getMessage())
-                 .code(errorCode.getCode())
+                .message(message)
+                 .code(code)
+                .build();
+    }
+    public static ApiCommonResponse<?> createErrorWithCode(ErrorCode code) {
+        return ApiCommonResponse.builder()
+                .status(ERROR.getStatus())
+                .message(code.getMessage())
+                .code(code.getCode())
                 .build();
     }
 }
