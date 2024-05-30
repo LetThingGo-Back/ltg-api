@@ -69,8 +69,8 @@ public class OAuth2ClientConfig {
         http.authorizeHttpRequests((requests) -> requests
 //                        .requestMatchers("/test/users/**").hasRole("ADMIN")
 //                        .requestMatchers("/test/users").hasRole("USER")
-//                .requestMatchers("/", "/v1/reissue", "/v1/oauth/**", "/**") // TODO: 추후에 다시 수정
-                .requestMatchers("/", "/v1/reissue", "/v1/oauth/**") // TODO: 추후에 다시 수정
+                .requestMatchers("/", "/v1/reissue", "/v1/oauth/**", "/**") // TODO: 추후에 다시 수정
+//                .requestMatchers("/", "/v1/reissue", "/v1/oauth/**") // TODO: 추후에 다시 수정
                 .permitAll()
                 .anyRequest().authenticated())
                 .exceptionHandling(c ->c.authenticationEntryPoint(customAuthenticationEntryPoint)
