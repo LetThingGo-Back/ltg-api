@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Entity
 @Getter
@@ -40,18 +41,24 @@ public class UserTerms {
         this.agreeYn = agreeYn;
     }
     public static List<UserTerms> createUserTerms(Map<String, String> userAgreements, Users user, List<Terms> terms){
-        List<UserTerms> userTerms = new ArrayList<>();
-        for(Terms t : terms){
-            String agreeYn = "N";
-            if(!StringUtils.isBlank(userAgreements.get(t.getTermsCode()))){
-                agreeYn=userAgreements.get(t.getTermsCode());
-            }
-            userTerms.add(UserTerms.builder().user(user)
-                                             .terms(t)
-                                             .agreeYn(agreeYn)
-                                    .build());
-        }
+//        List<UserTerms> userTerms = new ArrayList<>();
+//        for(Terms t : terms){
+//            String agreeYn = "N";
+//            if(!StringUtils.isBlank(userAgreements.get(t.getTermsCode()))){
+//                agreeYn=userAgreements.get(t.getTermsCode());
+//            }
+//            userTerms.add(UserTerms.builder().user(user)
+//                                             .terms(t)
+//                                             .agreeYn(agreeYn)
+//                                    .build());
+//        }
 
-        return userTerms;
+        return terms.stream()
+                .map(t -> UserTerms.builder()
+                        .user(user)
+                        .terms(t)
+                        .agreeYn(userAgreements.getOrDefault(t.getTermsCode(), "N"))
+                        .build())
+                .collect(Collectors.toList());
     }
 }

@@ -42,7 +42,7 @@ public class OAuth2ClientConfig {
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring().requestMatchers(
-//                 "/test/users/**",
+                 "/test/users/**",
                 "/swagger-ui.html", "/swagger-ui/**", "/api-docs", "/api-docs/**", "/clauseNew/**");
     }
     // CORS 설정
