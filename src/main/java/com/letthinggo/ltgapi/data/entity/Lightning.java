@@ -1,0 +1,25 @@
+package com.letthinggo.ltgapi.data.entity;
+
+import com.letthinggo.ltgapi.data.entity.common.BaseDateTimeBy;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Entity
+@Getter
+@NoArgsConstructor
+@Table(name = "LIGHTNING")
+public class Lightning extends BaseDateTimeBy {
+
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "LIGHTNING_ID", nullable = false)
+    private Long id;
+
+    @Column(name = "LOCATION_ID", nullable = false)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "LOCATION_ID") //유니크 제약조건 추가여부 체크?
+    private Location location;
+
+    @Column(name = "LIGHTING_DATE", nullable = false, length = 8)
+    private String lightingDate;
+}
