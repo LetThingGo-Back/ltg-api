@@ -17,7 +17,7 @@ public class Lightning extends BaseDateTimeBy {
 
     @Column(name = "LOCATION_ID", nullable = false)
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "LOCATION_ID") //유니크 제약조건 추가여부 체크?
+    @JoinColumn(name = "LOCATION_ID")
     private Location location;
 
     @Column(name = "LIGHTING_DATE", nullable = false, length = 8)

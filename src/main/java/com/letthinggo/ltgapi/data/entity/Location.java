@@ -21,7 +21,8 @@ public class Location extends BaseDateTime {
     private Long id;
 
     @Column(name = "ITEM_ID", nullable = false)
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="ITEM_ID")
     private Item item;
 
     @Column(name = "ADDRESS", nullable = false, length = 500)
@@ -49,7 +50,4 @@ public class Location extends BaseDateTime {
     @Column(name = "AVAILABILITY_CODE", nullable = false)
     private AvailabiltyCode availabilityCode;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "location")
-    private List<Availability> availabilities = new ArrayList<>();
 }

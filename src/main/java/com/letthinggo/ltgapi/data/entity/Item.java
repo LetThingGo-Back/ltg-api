@@ -24,8 +24,9 @@ public class Item extends BaseDateTime {
     private Users user;
 
     @Column(name = "CATEGORY_ID", nullable = false)
-    @ManyToMany(mappedBy = "items")
-    private List<Category> categories = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name="CATEGORY_ID")
+    private Category category;
 
     @Column(name = "ITEM_STATUS", nullable = false)
     private Character itemStatus;

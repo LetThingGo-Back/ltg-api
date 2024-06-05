@@ -27,6 +27,4 @@ public class Category extends BaseDateTimeBy {
     @Column(name = "USE_YN", nullable = false)
     private Character useYn;
 
-    @ManyToMany
-    private List<Item> items = new ArrayList<>();
 }
