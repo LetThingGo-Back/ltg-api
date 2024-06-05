@@ -51,11 +51,11 @@ public class Application extends BaseDateTime {
         this.delYn = delYn;
     }
 
-    public static Application createApplication(ApplicationCreateRequest request){
+    public static Application createApplication(ApplicationCreateRequest request, Long userId){
         return Application.builder()
                 .itemId(request.getItemId())
                 .locationId(request.getLocationId())
-                .applicantId(request.getApplicantId())
+                .applicantId(userId)
                 .memo(request.getMemo())
                 .delYn("N")
                 .build();

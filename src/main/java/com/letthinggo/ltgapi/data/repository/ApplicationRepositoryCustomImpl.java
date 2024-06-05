@@ -21,6 +21,7 @@ public class ApplicationRepositoryCustomImpl implements ApplicationRepositoryCus
         return queryFactory
                 .selectFrom(application)
                 .innerJoin(application.appAvailabilities, appAvailability)
+                .fetchJoin()
                 .where(application.id.eq(applicationId))
                 .fetch();
     }

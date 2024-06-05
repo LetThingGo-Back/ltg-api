@@ -7,21 +7,21 @@ import lombok.Data;
 @Data
 public class AppAvailabilityDto {
     private String availableDate;
-    private String startDate;
-    private String endDate;
+    private String startTime;
+    private String endTime;
 
     @Builder
-    public AppAvailabilityDto(String availableDate, String startDate, String endDate) {
+    public AppAvailabilityDto(String availableDate, String startTime, String endTime) {
         this.availableDate = availableDate;
-        this.startDate = startDate;
-        this.endDate = endDate;
+        this.startTime = startTime;
+        this.endTime = endTime;
     }
 
     public static AppAvailabilityDto createDto(AppAvailability appAvailability){
         return AppAvailabilityDto.builder()
                 .availableDate(appAvailability.getAvailableDate())
-                .startDate(appAvailability.getStartDate())
-                .endDate(appAvailability.getEndDate()).build();
+                .startTime(appAvailability.getStartTime())
+                .endTime(appAvailability.getEndTime()).build();
 
     }
 }

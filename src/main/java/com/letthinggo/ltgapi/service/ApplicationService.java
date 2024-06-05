@@ -6,5 +6,5 @@ import com.letthinggo.ltgapi.data.dto.ApplicationCreateResponse;
 
 public interface ApplicationService {
 
-    public ApplicationCreateResponse createApplication(ApplicationCreateRequest request);
+    public ApplicationCreateResponse createApplication(ApplicationCreateRequest request, Long userId);
 }

@@ -29,22 +29,22 @@ public class AppAvailability extends BaseDateTime {
     @Column(name="AVAILABLE_DATE")
     private String availableDate;
 
-    @Column(name="START_DATE")
-    private String startDate;
+    @Column(name="START_TIME")
+    private String startTime;
 
-    @Column(name="END_DATE")
-    private String endDate;
+    @Column(name="END_TIME")
+    private String endTime;
 
     @Convert(converter = ApplicationStatusConverter.class)
     @Column(name="APPLICATION_STATUS")
     private ApplicationStatus applicationStatus;
 
     @Builder
-    public AppAvailability(Application application, String availableDate, String startDate, String endDate, ApplicationStatus applicationStatus) {
+    public AppAvailability(Application application, String availableDate, String startTime, String endTime, ApplicationStatus applicationStatus) {
         this.application = application;
         this.availableDate = availableDate;
-        this.startDate = startDate;
-        this.endDate = endDate;
+        this.startTime = startTime;
+        this.endTime = endTime;
         this.applicationStatus = applicationStatus;
     }
 
@@ -53,8 +53,8 @@ public class AppAvailability extends BaseDateTime {
                  .map(dto -> AppAvailability.builder()
                          .application(application)
                          .availableDate(dto.getAvailableDate())
-                         .startDate(dto.getStartDate())
-                         .endDate(dto.getEndDate())
+                         .startTime(dto.getStartTime())
+                         .endTime(dto.getEndTime())
                          .applicationStatus(ApplicationStatus.WAITING)
                          .build())
                  .collect(Collectors.toList());

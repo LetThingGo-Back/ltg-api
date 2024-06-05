@@ -7,7 +7,7 @@ import java.util.List;
 
 @Data
 public class ApplicationCreateRequest {
-    private Long applicantId;
+    private Long userId;
     private Long locationId;
     private Long ItemId;
     private String memo;

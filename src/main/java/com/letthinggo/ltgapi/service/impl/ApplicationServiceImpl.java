@@ -22,17 +22,17 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Transactional
     @Override
-    public ApplicationCreateResponse createApplication(ApplicationCreateRequest request) {
+    public ApplicationCreateResponse createApplication(ApplicationCreateRequest request, Long userId) {
         // 1. 나눔 신청 등록
-//        Application applicationIn = Application.createApplication(request);
-//        applicationRepository.save(applicationIn);
-//
-//        // 2. 나눔 가능 요청 시간 등록
-//        List<AppAvailability> appAvailabilitiesIn =  AppAvailability.createAppAvailability(request.getAppAvailabilities(), applicationIn);
-//        appAvailabilityRepository.saveAll(appAvailabilitiesIn);
+        Application applicationIn = Application.createApplication(request , userId);
+        applicationRepository.save(applicationIn);
 
-        List<Application> applicationOut = applicationRepository.findAllById(1L);
+        // 2. 나눔 가능 요청 시간 등록
+        List<AppAvailability> appAvailabilitiesIn =  AppAvailability.createAppAvailability(request.getAppAvailabilities(), applicationIn);
+        appAvailabilityRepository.saveAll(appAvailabilitiesIn);
 
-        return null;
+        // 3. 나눔 신청 정보 조회
+        List<Application> applicationOut = applicationRepository.findAllById(applicationIn.getId());
+        return ApplicationCreateResponse.createResponse(applicationOut.get(0));
     }
 }

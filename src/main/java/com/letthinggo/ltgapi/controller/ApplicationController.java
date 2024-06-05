@@ -5,7 +5,7 @@ import com.letthinggo.ltgapi.data.dto.ApplicationCreateResponse;
 import com.letthinggo.ltgapi.jwt.JwtUtil;
 import com.letthinggo.ltgapi.response.ApiCommonResponse;
 import com.letthinggo.ltgapi.service.ApplicationService;
-import com.letthinggo.ltgapi.service.SocialLoginService;
+import com.letthinggo.ltgapi.social.dto.CustomOAuth2User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,10 +39,10 @@ public class ApplicationController {
     }
     )
     @PostMapping("/v1/applications")
-    public ResponseEntity saveRequest(@RequestBody ApplicationCreateRequest applicationCreateRequest, HttpServletRequest request, HttpServletResponse response) throws Exception{
-//        Long userId = jwtUtil.getUserId(request.getHeader("Authorization"));
-//        applicationCreateRequest.setApplicantId(userId);
-        ApplicationCreateResponse rtnVo = applicationService.createApplication(applicationCreateRequest);
+    public ResponseEntity saveRequest(@RequestBody ApplicationCreateRequest applicationCreateRequest, Authentication authentication
+                                                    , HttpServletRequest request, HttpServletResponse response) throws Exception{
+        Long userId = authentication == null ? applicationCreateRequest.getUserId() :  ((CustomOAuth2User) authentication.getPrincipal()).getUserId();
+        ApplicationCreateResponse rtnVo = applicationService.createApplication(applicationCreateRequest, userId);
         EntityModel entityModel = EntityModel.of(ApiCommonResponse.createSuccess(rtnVo));
         return ResponseEntity.ok(entityModel);
     }
