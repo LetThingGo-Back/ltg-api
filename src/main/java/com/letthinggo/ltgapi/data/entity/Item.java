@@ -17,13 +17,11 @@ public class Item extends BaseDateTime {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ITEM_ID", nullable = false)
     private Long id;
-
-    @Column(name = "CONTRIBUTOR_ID", nullable = false)
+    
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="USER_ID")
     private Users user;
 
-    @Column(name = "CATEGORY_ID", nullable = false)
     @ManyToOne
     @JoinColumn(name="CATEGORY_ID")
     private Category category;

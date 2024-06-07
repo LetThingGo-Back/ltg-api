@@ -20,7 +20,6 @@ public class Location extends BaseDateTime {
     @Column(name = "LOCATION_ID", nullable = false)
     private Long id;
 
-    @Column(name = "ITEM_ID", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="ITEM_ID")
     private Item item;
