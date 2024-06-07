@@ -15,7 +15,6 @@ public class Lightning extends BaseDateTimeBy {
     @Column(name = "LIGHTNING_ID", nullable = false)
     private Long id;
 
-    @Column(name = "LOCATION_ID", nullable = false)
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "LOCATION_ID")
     private Location location;

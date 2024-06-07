@@ -1,16 +1,42 @@
 package com.letthinggo.ltgapi.data.entity;
 
+import com.letthinggo.ltgapi.exception.CommonException;
+import com.letthinggo.ltgapi.exception.ErrorCode;
+import lombok.Getter;
+
+import java.util.Arrays;
+
+@Getter
 public enum ProgressCode {
 
-//    포장도 뜯지 않은 새것
-//    거의 사용안해서 새것 같음
-//    사용한지 좀 되었지만 관리가 잘됨
-//    중고처럼 보이나 사용하는데 문제 없음
-//    버리기 애매함
+    //신청 받는 중, 일정 조율 중, 나눔 예정,  나눔 완료, 취소됨
+    WAITING("1","신청받는중","PROGRESSING"),
+    COORDINATING("2","일정조율중","COORDINATING"),
+    PLANNING("3", "나눔예정중","PLANNING"),
+    COMPLETED("C", "나눔완료", "COMPLETED"),
+    CANCEL("X", "나눔취소", "CANCEL")
+    ;
 
-//    오늘 만듦,
-//    오늘 안에 소비해야함,
-//    소비기한 2일 이상,
-//    소비기한 1주일 이상 남음,
-//    소비기한 1달 이상 남음
+    private String code;
+    private String codeKorName;
+    private String codeEngName;
+
+    ProgressCode(String code, String codeKorName, String codeEngName) {
+        this.code = code;
+        this.codeKorName = codeKorName;
+        this.codeEngName = codeEngName;
     }
+
+    public static ProgressCode fromCode(String dbData) {
+        return Arrays.stream(ProgressCode.values())
+                .filter(v->v.getCode().equals(dbData))
+                .findAny()
+                .orElseThrow(()->new CommonException(ErrorCode.INVALID_INPUT_VALUE))
+                ;
+
+    }
+
+
+
+}
+

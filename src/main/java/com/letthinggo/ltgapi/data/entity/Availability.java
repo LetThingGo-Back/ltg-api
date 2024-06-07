@@ -15,7 +15,6 @@ public class Availability extends BaseDateTime {
     @Column(name = "AVAILABILITY_ID", nullable = false)
     private Long id;
 
-    @Column(name = "LOCATION_ID", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "LOCATION_ID")
     private Location location;
