@@ -36,6 +36,8 @@ public class ApplicationController {
     @Operation(summary = "나눔 신청 API", description = "물품 나눔을 받기 위한 신청 정보를 등록합니다.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "10201", description = "사용자가 존재하지 않습니다."),
+            @ApiResponse(responseCode = "30101", description = "해당 물품에 이미 신청하셨습니다."),
     }
     )
     @PostMapping("/v1/applications")

@@ -10,7 +10,6 @@ import com.letthinggo.ltgapi.service.UserService;
 import com.letthinggo.ltgapi.social.dto.CustomOAuth2User;
 import com.letthinggo.ltgapi.util.CookieUtil;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;

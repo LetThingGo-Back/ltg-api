@@ -20,18 +20,22 @@ public class Application extends BaseDateTime {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="APPLICATION_ID")
     private Long id;
-    
-    // TODO: 추후에 다시 수정
-    //private Item item;
-    //private Location location;
+
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name="ITEM_ID")
+//    private Item item;
+//
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name="LOCATION_ID")
+//    private Location location;
     @Column(name="ITEM_ID")
-    private Long itemId;
-
+    private Long itemId; // TODO: 추후에 삭제
     @Column(name="LOCATION_ID")
-    private Long locationId;
+    private Long locationId; // TODO: 추후에 삭제
 
-    @Column(name="APPLICANT_ID")
-    private Long applicantId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="APPLICANT_ID")
+    private Users users;
 
     @Column(name="MEMO")
     private String memo;
@@ -43,21 +47,33 @@ public class Application extends BaseDateTime {
     private List<AppAvailability> appAvailabilities = new ArrayList<>();
 
     @Builder
-    public Application(Long itemId, Long locationId, Long applicantId, String memo, String delYn) {
-        this.itemId = itemId;
-        this.locationId = locationId;
-        this.applicantId = applicantId;
+    public Application(Item item, Location location, Long itemId, Long locationId, Users users, String memo, String delYn) {
+//        this.item = item;
+//        this.location = location;
+        this.users = users;
         this.memo = memo;
         this.delYn = delYn;
+        this.itemId = itemId; // TODO: 추후에 삭제
+        this.locationId = locationId; // TODO: 추후에 삭제
     }
-
-    public static Application createApplication(ApplicationCreateRequest request, Long userId){
+    // TODO: 추후에 삭제
+    public static Application createApplication(ApplicationCreateRequest request, Users users){
         return Application.builder()
                 .itemId(request.getItemId())
                 .locationId(request.getLocationId())
-                .applicantId(userId)
+                .users(users)
                 .memo(request.getMemo())
                 .delYn("N")
                 .build();
     }
+
+//    public static Application createApplication(Item item, Location location, Users users, String memo, String delYn){
+//        return Application.builder()
+//                .item(item)
+//                .location(location)
+//                .users(users)
+//                .memo(request.getMemo())
+//                .delYn(delYn)
+//                .build();
+//    }
 }

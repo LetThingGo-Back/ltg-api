@@ -1,5 +1,6 @@
 package com.letthinggo.ltgapi.data.dto;
 
+import com.letthinggo.ltgapi.data.entity.AppAvailability;
 import com.letthinggo.ltgapi.data.entity.Application;
 import lombok.Builder;
 import lombok.Data;
@@ -29,10 +30,10 @@ public class ApplicationCreateResponse {
         this.appAvailabilities = appAvailabilities;
     }
     // TODO: 추후에 다시 변경
-    public static ApplicationCreateResponse createResponse(Application application){
+    public static ApplicationCreateResponse createResponse(Application application, List<AppAvailability> appAvailabilities){
         return ApplicationCreateResponse.builder()
                 .memo(application.getMemo())
-                .appAvailabilities(application.getAppAvailabilities().stream().map(AppAvailabilityDto::createDto)
+                .appAvailabilities(appAvailabilities.stream().map(AppAvailabilityDto::createDto)
                                                                              .collect(toList()))
                 .build();
     }
