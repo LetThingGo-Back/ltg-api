@@ -37,7 +37,12 @@ public enum ErrorCode {
      /*
         나눔물품 20100 ~ 20999
      * */
-    INVAILD_AVAILABILTY_CODE(20100,"나눔가능시간등록자구분코드에 %s가 존재하지 않습니다.")
+    INVAILD_AVAILABILTY_CODE(20100,"나눔가능시간등록자구분코드에 %s가 존재하지 않습니다."),
+
+    /*
+     *   나눔물품신청 30100 ~ 30999
+     */
+    APPLICATION_ALREADY_REGISTERED(30101, "해당 물품에 이미 신청하셨습니다."),
 
 
     ;

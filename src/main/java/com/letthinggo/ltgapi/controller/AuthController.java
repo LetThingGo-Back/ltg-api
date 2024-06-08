@@ -3,8 +3,6 @@ package com.letthinggo.ltgapi.controller;
 import com.letthinggo.ltgapi.data.dto.TokenResponseDto;
 import com.letthinggo.ltgapi.data.dto.TokenRequestDto;
 import com.letthinggo.ltgapi.data.entity.SocialLoginCode;
-import com.letthinggo.ltgapi.exception.CommonException;
-import com.letthinggo.ltgapi.exception.ErrorCode;
 import com.letthinggo.ltgapi.jwt.JwtUtil;
 import com.letthinggo.ltgapi.response.ApiCommonResponse;
 import com.letthinggo.ltgapi.service.SocialLoginService;
@@ -24,8 +22,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Arrays;
 
 import static com.letthinggo.ltgapi.util.CookieUtil.*;
 
