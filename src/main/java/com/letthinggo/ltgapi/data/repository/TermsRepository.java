@@ -6,5 +6,5 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 public interface TermsRepository extends JpaRepository<Terms, Long> {
-    List<Terms> findByUseYn(@Param("useYn") String userYn);
+    List<Terms> findByUseYn(@Param("useYn") String useYn);
 }
