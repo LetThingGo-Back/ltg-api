@@ -32,7 +32,7 @@ class CodeServiceImplTest {
         GroupCodeCreateRequest groupCodeRequest = createGroupCode();
 
         //when
-        GroupCodeCreateResponse groupCodeCreateResponse = codeService.createGroupCodes(groupCodeRequest);
+        GroupCodeCreateResponse groupCodeCreateResponse = codeService.createGroupCode(groupCodeRequest);
 
         //then
         Optional<GroupCode> groupCode = groupCodeRepository.findById(groupCodeCreateResponse.getGroupCode());
@@ -47,10 +47,10 @@ class CodeServiceImplTest {
         GroupCodeCreateRequest groupCode2 = createGroupCode();
 
         //when
-        codeService.createGroupCodes(gruopCode1);
+        codeService.createGroupCode(gruopCode1);
 
         assertThrows(CommonException.class, () -> {
-            codeService.createGroupCodes(groupCode2);
+            codeService.createGroupCode(groupCode2);
         });
     }
 

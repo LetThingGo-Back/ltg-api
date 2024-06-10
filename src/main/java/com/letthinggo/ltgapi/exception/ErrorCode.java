@@ -45,9 +45,18 @@ public enum ErrorCode {
     APPLICATION_ALREADY_REGISTERED(30101, "해당 물품에 이미 신청하셨습니다."),
 
     /**
-     * 공통 코드 40100 ~ 40999
+     * 코드 40100 ~ 40999
      */
-    GROUP_CODE_ALREADY_REGISTERED(40100, "이미 등록된 그룹코드입니다.")
+    DUPLICATE_GROUP_CODE(40101, "이미 등록된 그룹코드입니다."),
+
+    INVALID_CODE(40102, "동일한 그룹코드에 공통코드는 중복될 수 없습니다."),
+
+    GROUP_CODE_NOT_FOUND(40103, "그룹코드가 존재하지 않습니다."),
+
+    DUPLICATE_CODE(40104, "이미 등록된 공통코드입니다."),
+
+
+
     ;
     private final int code;
     private final String message;
