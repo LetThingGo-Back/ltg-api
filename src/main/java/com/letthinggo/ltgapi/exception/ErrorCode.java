@@ -26,9 +26,9 @@ public enum ErrorCode {
     ACCESS_TOKEN_EXPIRED( 10107,"Access Token Expired"),
     INVAILD_ACCESS_TOKEN(10108, "Invalid Access Token"),
 
-    INVAILD_SOCIAL_CODE(10108, "소셜로그인코드에 %s가 존재하지 않습니다."),
+    INVAILD_SOCIAL_CODE(10109, "소셜로그인코드에 %s가 존재하지 않습니다."),
 
-    INVAILD_SOCIAL_NAME(10108, "%s는 잘못된 provider입니다."),
+    INVAILD_SOCIAL_NAME(10110, "%s는 잘못된 provider입니다."),
     /**
      * 사용자 정보 조회 10200 ~ 10299
      */
@@ -44,7 +44,10 @@ public enum ErrorCode {
      */
     APPLICATION_ALREADY_REGISTERED(30101, "해당 물품에 이미 신청하셨습니다."),
 
-
+    /**
+     * 공통 코드 40100 ~ 40999
+     */
+    GROUP_CODE_ALREADY_REGISTERED(40100, "이미 등록된 그룹코드입니다.")
     ;
     private final int code;
     private final String message;
