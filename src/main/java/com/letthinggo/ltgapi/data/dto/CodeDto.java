@@ -1,6 +1,7 @@
 package com.letthinggo.ltgapi.data.dto;
 
 import com.letthinggo.ltgapi.data.entity.Code;
+import com.letthinggo.ltgapi.data.entity.GroupCode;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -52,5 +53,18 @@ public class CodeDto {
     @Schema(title="순서", example = "1")
     @NotBlank
     private Integer codeSeq;
+
+    public CodeDto(String code, String codeKorName, String codeEngName, String mngItem1, String mngItem2, String mngItem3, String mngItem4, String description, String useYn, Integer codeSeq) {
+        this.code = code;
+        this.codeKorName = codeKorName;
+        this.codeEngName = codeEngName;
+        this.mngItem1 = mngItem1;
+        this.mngItem2 = mngItem2;
+        this.mngItem3 = mngItem3;
+        this.mngItem4 = mngItem4;
+        this.description = description;
+        this.useYn = useYn;
+        this.codeSeq = codeSeq;
+    }
 
 }

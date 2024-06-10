@@ -1,9 +1,6 @@
 package com.letthinggo.ltgapi.service.impl;
 
-import com.letthinggo.ltgapi.data.dto.CodeCreateRequest;
-import com.letthinggo.ltgapi.data.dto.CodeDto;
-import com.letthinggo.ltgapi.data.dto.GroupCodeCreateRequest;
-import com.letthinggo.ltgapi.data.dto.GroupCodeCreateResponse;
+import com.letthinggo.ltgapi.data.dto.*;
 import com.letthinggo.ltgapi.data.entity.Code;
 import com.letthinggo.ltgapi.data.entity.CodePk;
 import com.letthinggo.ltgapi.data.entity.GroupCode;
@@ -66,6 +63,13 @@ public class CodeServiceImpl implements CodeService {
         // 4. 코드 생성
         List<Code> code = codeRepository.saveAll(Code.createCodes(codeCreateRequest, groupCodeOut.get()));
         return code.size();
+    }
+
+    @Override
+    public CodeReadResponse retrieveCode(String groupCode, String code) {
+        List<GroupCode> groupCodesOut = groupCodeRepository.findAllByGroupCodeAndCode(groupCode, code);
+        CodeReadResponse.createCodeReadResponse(groupCodesOut);
+        return null;
     }
 
     public void checkForDuplicateCodes(List<CodeDto> requestCodes) {

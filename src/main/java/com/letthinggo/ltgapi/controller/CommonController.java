@@ -17,10 +17,7 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -39,7 +36,7 @@ public class CommonController {
     }
     )
     @PostMapping("/v1/group-codes")
-    public ResponseEntity saveGroupCode( @Valid @RequestBody GroupCodeCreateRequest groupCodeCreateRequest
+    public ResponseEntity createGroupCode( @Valid @RequestBody GroupCodeCreateRequest groupCodeCreateRequest
             , HttpServletRequest request, HttpServletResponse response) throws Exception{
         GroupCodeCreateResponse rtnVo = codeService.createGroupCode(groupCodeCreateRequest);
         EntityModel entityModel = EntityModel.of(ApiCommonResponse.createSuccess(rtnVo));
@@ -55,10 +52,22 @@ public class CommonController {
     }
     )
     @PostMapping("/v1/codes")
-    public ResponseEntity saveCode( @Valid @RequestBody CodeCreateRequest codeCreateRequest
+    public ResponseEntity createCode( @Valid @RequestBody CodeCreateRequest codeCreateRequest
             , HttpServletRequest request, HttpServletResponse response) throws Exception{
         codeService.createCode(codeCreateRequest);
         EntityModel entityModel = EntityModel.of(ApiCommonResponse.createSuccess(null));
+        return ResponseEntity.ok(entityModel);
+    }
+
+    @Operation(summary = "공통코드 조회 API", description = "공통코드 정보를 조회합니다.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+    }
+    )
+    @PostMapping("/v1/group-codes/{groupCode}/codes/{code}")
+    public ResponseEntity retrieveCode( @PathVariable String groupCode, @PathVariable String code, HttpServletRequest request, HttpServletResponse response) throws Exception{
+        CodeReadResponse codeReadResponse = codeService.retrieveCode(groupCode, code);
+        EntityModel entityModel = EntityModel.of(ApiCommonResponse.createSuccess(codeReadResponse));
         return ResponseEntity.ok(entityModel);
     }
 }
