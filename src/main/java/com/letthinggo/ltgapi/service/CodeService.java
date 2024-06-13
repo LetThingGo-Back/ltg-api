@@ -1,14 +1,11 @@
 package com.letthinggo.ltgapi.service;
 
-import com.letthinggo.ltgapi.data.dto.CodeCreateRequest;
-import com.letthinggo.ltgapi.data.dto.CodeReadResponse;
-import com.letthinggo.ltgapi.data.dto.GroupCodeCreateRequest;
-import com.letthinggo.ltgapi.data.dto.GroupCodeCreateResponse;
+import com.letthinggo.ltgapi.data.dto.*;
 
 public interface CodeService {
-    GroupCodeCreateResponse createGroupCode(GroupCodeCreateRequest groupCodeCreateRequest);
+    GroupCodeCreateResponse createGroupCode(GroupCodeCreateRequest groupCodeCreateRequest)throws Exception;
 
-    int createCode(CodeCreateRequest codeCreateRequest);
+    int createCode(CodeCreateRequest codeCreateRequest)throws Exception;
 
-    CodeReadResponse retrieveCode(String groupCode, String code);
+    CodeSearchResponse retrieveCode(String groupCode, String code, CodeSearchRequest codeRequest)throws Exception;
 }

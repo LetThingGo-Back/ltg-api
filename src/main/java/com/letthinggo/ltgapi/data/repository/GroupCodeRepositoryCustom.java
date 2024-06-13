@@ -1,10 +1,9 @@
 package com.letthinggo.ltgapi.data.repository;
 
-import com.letthinggo.ltgapi.data.entity.GroupCode;
-
-import java.util.List;
+import com.letthinggo.ltgapi.data.dto.CodeSearchRequest;
+import com.letthinggo.ltgapi.data.dto.CodeSearchResponse;
 
 public interface GroupCodeRepositoryCustom {
-    List<GroupCode> findAllByGroupCodeAndCode(String GroupCode, String Code);
+    CodeSearchResponse findAllByGroupCodeAndCode(String GroupCode, String Code, CodeSearchRequest codeRequest);
 }
 

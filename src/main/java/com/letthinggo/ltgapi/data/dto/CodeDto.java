@@ -1,20 +1,18 @@
 package com.letthinggo.ltgapi.data.dto;
 
-import com.letthinggo.ltgapi.data.entity.Code;
-import com.letthinggo.ltgapi.data.entity.GroupCode;
+import com.querydsl.core.annotations.QueryProjection;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Data;
 
-import java.util.List;
 
 @Data
 public class CodeDto {
 
     @Schema(title="공통코드", example = "L")
-    @NotBlank
+//    @NotBlank
     @Size(max=150)
     private String code;
 
@@ -47,13 +45,15 @@ public class CodeDto {
     private String description;
 
     @Schema(title="사용여부", example = "Y")
-    @NotBlank
+//    @NotBlank
     private String useYn;
 
     @Schema(title="순서", example = "1")
-    @NotBlank
+//    @NotBlank
     private Integer codeSeq;
 
+    @Builder
+    @QueryProjection
     public CodeDto(String code, String codeKorName, String codeEngName, String mngItem1, String mngItem2, String mngItem3, String mngItem4, String description, String useYn, Integer codeSeq) {
         this.code = code;
         this.codeKorName = codeKorName;
@@ -66,5 +66,5 @@ public class CodeDto {
         this.useYn = useYn;
         this.codeSeq = codeSeq;
     }
-
+    
 }

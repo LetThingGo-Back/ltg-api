@@ -2,7 +2,6 @@ package com.letthinggo.ltgapi.service.impl;
 
 import com.letthinggo.ltgapi.data.dto.*;
 import com.letthinggo.ltgapi.data.entity.Code;
-import com.letthinggo.ltgapi.data.entity.CodePk;
 import com.letthinggo.ltgapi.data.entity.GroupCode;
 import com.letthinggo.ltgapi.data.repository.CodeRepository;
 import com.letthinggo.ltgapi.data.repository.GroupCodeRepository;
@@ -28,7 +27,7 @@ public class CodeServiceImpl implements CodeService {
 
     @Transactional
     @Override
-    public GroupCodeCreateResponse createGroupCode(GroupCodeCreateRequest groupCodeCreateRequest) {
+    public GroupCodeCreateResponse createGroupCode(GroupCodeCreateRequest groupCodeCreateRequest) throws Exception {
         Optional<GroupCode> groupCodeOut =groupCodeRepository.findById(groupCodeCreateRequest.getGroupCode());
         if(groupCodeOut.isPresent()){
             // 동일한 그룹코드 값이 있을 때 예외 발생
@@ -41,7 +40,7 @@ public class CodeServiceImpl implements CodeService {
 
     @Transactional
     @Override
-    public int createCode(CodeCreateRequest codeCreateRequest) {
+    public int createCode(CodeCreateRequest codeCreateRequest) throws Exception {
         // 1. 공통코드 중복 입력 체크
         checkForDuplicateCodes(codeCreateRequest.getCodes());
 
@@ -66,10 +65,20 @@ public class CodeServiceImpl implements CodeService {
     }
 
     @Override
-    public CodeReadResponse retrieveCode(String groupCode, String code) {
-        List<GroupCode> groupCodesOut = groupCodeRepository.findAllByGroupCodeAndCode(groupCode, code);
-        CodeReadResponse.createCodeReadResponse(groupCodesOut);
-        return null;
+    public CodeSearchResponse retrieveCode(String groupCode, String code, CodeSearchRequest codeRequest) throws Exception{
+        // 1. 그룹코드 존재여부 확인
+        Optional<GroupCode> groupCodeOut =groupCodeRepository.findById(groupCode);
+        if(!groupCodeOut.isPresent()){
+            throw new CommonException(GROUP_CODE_NOT_FOUND);
+        }
+        // 2. 공통코드 조회
+        CodeSearchResponse  codeSearchResponse = groupCodeRepository.findAllByGroupCodeAndCode(groupCode, code, codeRequest);
+        if(codeSearchResponse == null){
+            codeSearchResponse = new CodeSearchResponse();
+            codeSearchResponse.setGroupCode(groupCode);
+            codeSearchResponse.setGroupCodeName(groupCodeOut.get().getGroupCodeName());
+        }
+        return codeSearchResponse;
     }
 
     public void checkForDuplicateCodes(List<CodeDto> requestCodes) {

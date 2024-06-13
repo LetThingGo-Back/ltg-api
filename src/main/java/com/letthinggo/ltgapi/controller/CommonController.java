@@ -3,20 +3,16 @@ package com.letthinggo.ltgapi.controller;
 import com.letthinggo.ltgapi.data.dto.*;
 import com.letthinggo.ltgapi.response.ApiCommonResponse;
 import com.letthinggo.ltgapi.service.CodeService;
-import com.letthinggo.ltgapi.social.dto.CustomOAuth2User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -36,8 +32,7 @@ public class CommonController {
     }
     )
     @PostMapping("/v1/group-codes")
-    public ResponseEntity createGroupCode( @Valid @RequestBody GroupCodeCreateRequest groupCodeCreateRequest
-            , HttpServletRequest request, HttpServletResponse response) throws Exception{
+    public ResponseEntity createGroupCode( @Valid @RequestBody GroupCodeCreateRequest groupCodeCreateRequest) throws Exception{
         GroupCodeCreateResponse rtnVo = codeService.createGroupCode(groupCodeCreateRequest);
         EntityModel entityModel = EntityModel.of(ApiCommonResponse.createSuccess(rtnVo));
         return ResponseEntity.ok(entityModel);
@@ -52,22 +47,27 @@ public class CommonController {
     }
     )
     @PostMapping("/v1/codes")
-    public ResponseEntity createCode( @Valid @RequestBody CodeCreateRequest codeCreateRequest
-            , HttpServletRequest request, HttpServletResponse response) throws Exception{
+    public ResponseEntity createCode( @Valid @RequestBody CodeCreateRequest codeCreateRequest) throws Exception{
         codeService.createCode(codeCreateRequest);
         EntityModel entityModel = EntityModel.of(ApiCommonResponse.createSuccess(null));
+//        WebMvcLinkBuilder linTo = linkTo(methodOn(this.getClass()).retrieveCodes(codeCreateRequest.getGroupCode(), "", null));
+//        entityModel.add(linTo.withRel("all-codes"));
         return ResponseEntity.ok(entityModel);
     }
 
-    @Operation(summary = "공통코드 조회 API", description = "공통코드 정보를 조회합니다.")
+    @Operation(summary = "공통코드 조회 API", description = "특정 그룹코드의 공통코드 정보를 조회합니다.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK"),
     }
     )
-    @PostMapping("/v1/group-codes/{groupCode}/codes/{code}")
-    public ResponseEntity retrieveCode( @PathVariable String groupCode, @PathVariable String code, HttpServletRequest request, HttpServletResponse response) throws Exception{
-        CodeReadResponse codeReadResponse = codeService.retrieveCode(groupCode, code);
-        EntityModel entityModel = EntityModel.of(ApiCommonResponse.createSuccess(codeReadResponse));
+    @GetMapping({"/v1/group-codes/{groupCode}/codes/{code}", "/v1/group-codes/{groupCode}/codes"})
+    public ResponseEntity retrieveCodes( @PathVariable String groupCode, @PathVariable(required = false) String code,
+                                        @ModelAttribute CodeSearchRequest codeRequest
+    )
+            throws Exception{
+//        CodeSearchRequest codeRequest = new CodeSearchRequest();
+        CodeSearchResponse codeSearchResponse = codeService.retrieveCode(groupCode, code, codeRequest);
+        EntityModel entityModel = EntityModel.of(ApiCommonResponse.createSuccess(codeSearchResponse));
         return ResponseEntity.ok(entityModel);
     }
 }

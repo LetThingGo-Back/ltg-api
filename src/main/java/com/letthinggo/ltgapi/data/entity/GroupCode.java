@@ -36,7 +36,7 @@ public class GroupCode extends BaseDateTimeBy {
     private List<Code> codes;
 
     @Builder
-    public GroupCode(String groupCode, String groupCodeName, String mngDes1, String mngDes2, String mngDes3, String mngDes4, String description, String useYn) {
+    public GroupCode(String groupCode, String groupCodeName, String mngDes1, String mngDes2, String mngDes3, String mngDes4, String description, String useYn, List<Code> codes) {
         this.groupCode = groupCode;
         this.groupCodeName = groupCodeName;
         this.mngDes1 = mngDes1;
@@ -45,6 +45,7 @@ public class GroupCode extends BaseDateTimeBy {
         this.mngDes4 = mngDes4;
         this.description = description;
         this.useYn = useYn;
+        this.codes = codes;
     }
 
     public static GroupCode createGroupCode(GroupCodeCreateRequest dto) {
