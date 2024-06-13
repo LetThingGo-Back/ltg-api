@@ -7,10 +7,12 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.Nullable;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -50,22 +52,24 @@ public class CommonController {
     public ResponseEntity createCode( @Valid @RequestBody CodeCreateRequest codeCreateRequest) throws Exception{
         codeService.createCode(codeCreateRequest);
         EntityModel entityModel = EntityModel.of(ApiCommonResponse.createSuccess(null));
-//        WebMvcLinkBuilder linTo = linkTo(methodOn(this.getClass()).retrieveCodes(codeCreateRequest.getGroupCode(), "", null));
-//        entityModel.add(linTo.withRel("all-codes"));
+        Link linkToAllCodes = linkTo(methodOn(this.getClass()).retrieveCodes(codeCreateRequest.getGroupCode(), null, null))
+                                .withRel("all-codes");
+        entityModel.add(linkToAllCodes);
         return ResponseEntity.ok(entityModel);
     }
 
     @Operation(summary = "공통코드 조회 API", description = "특정 그룹코드의 공통코드 정보를 조회합니다.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "40103", description = "그룹코드가 존재하지 않습니다."),
     }
     )
-    @GetMapping({"/v1/group-codes/{groupCode}/codes/{code}", "/v1/group-codes/{groupCode}/codes"})
-    public ResponseEntity retrieveCodes( @PathVariable String groupCode, @PathVariable(required = false) String code,
-                                        @ModelAttribute CodeSearchRequest codeRequest
+    @GetMapping({"/v1/group-codes/{groupCode}/codes", "/v1/group-codes/{groupCode}/codes/{code}" })
+    public ResponseEntity retrieveCodes( @PathVariable String groupCode
+                                        , @PathVariable(required = false) String code,
+                                         @Valid @Nullable @ModelAttribute CodeSearchRequest codeRequest
     )
             throws Exception{
-//        CodeSearchRequest codeRequest = new CodeSearchRequest();
         CodeSearchResponse codeSearchResponse = codeService.retrieveCode(groupCode, code, codeRequest);
         EntityModel entityModel = EntityModel.of(ApiCommonResponse.createSuccess(codeSearchResponse));
         return ResponseEntity.ok(entityModel);

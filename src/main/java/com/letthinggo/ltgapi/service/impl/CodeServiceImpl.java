@@ -72,13 +72,7 @@ public class CodeServiceImpl implements CodeService {
             throw new CommonException(GROUP_CODE_NOT_FOUND);
         }
         // 2. 공통코드 조회
-        CodeSearchResponse  codeSearchResponse = groupCodeRepository.findAllByGroupCodeAndCode(groupCode, code, codeRequest);
-        if(codeSearchResponse == null){
-            codeSearchResponse = new CodeSearchResponse();
-            codeSearchResponse.setGroupCode(groupCode);
-            codeSearchResponse.setGroupCodeName(groupCodeOut.get().getGroupCodeName());
-        }
-        return codeSearchResponse;
+        return groupCodeRepository.findAllByGroupCodeAndCode(groupCode, code, codeRequest);
     }
 
     public void checkForDuplicateCodes(List<CodeDto> requestCodes) {

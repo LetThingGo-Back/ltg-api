@@ -45,11 +45,11 @@ public class CodeDto {
     private String description;
 
     @Schema(title="사용여부", example = "Y")
-//    @NotBlank
+    @NotBlank@Size(max=1)
     private String useYn;
 
     @Schema(title="순서", example = "1")
-//    @NotBlank
+    @NotBlank
     private Integer codeSeq;
 
     @Builder
