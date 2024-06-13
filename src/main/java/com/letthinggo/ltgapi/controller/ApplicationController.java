@@ -41,7 +41,7 @@ public class ApplicationController {
     }
     )
     @PostMapping("/v1/applications")
-    public ResponseEntity saveRequest(@RequestBody ApplicationCreateRequest applicationCreateRequest, Authentication authentication
+    public ResponseEntity createApplication(@RequestBody ApplicationCreateRequest applicationCreateRequest, Authentication authentication
                                                     , HttpServletRequest request, HttpServletResponse response) throws Exception{
         Long userId = authentication == null ? applicationCreateRequest.getUserId() :  ((CustomOAuth2User) authentication.getPrincipal()).getUserId();
         ApplicationCreateResponse rtnVo = applicationService.createApplication(applicationCreateRequest, userId);
