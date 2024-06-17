@@ -28,6 +28,7 @@ public class GroupCodeRepositoryCustomImpl implements GroupCodeRepositoryCustom{
                 .where(
                         groupCodeEq(groupCodeParam),
                         codeEq(codeParam),
+                        groupCodeUseYnEq("Y"),
                         codeRequest != null ? useYnEq(codeRequest.getUseYn()) : null,
                         codeRequest != null ? codeKorNameLike(codeRequest.getCodeKorName()) : null,
                         codeRequest != null ? codeEngNameLike(codeRequest.getCodeEngName()) : null,
@@ -40,6 +41,12 @@ public class GroupCodeRepositoryCustomImpl implements GroupCodeRepositoryCustom{
                 .transform(GroupBy.groupBy(groupCode1.groupCode).list(new QCodeSearchResponse(
                         groupCode1.groupCode,
                         groupCode1.groupCodeName,
+                        groupCode1.mngDes1,
+                        groupCode1.mngDes2,
+                        groupCode1.mngDes3,
+                        groupCode1.mngDes4,
+                        groupCode1.description,
+                        groupCode1.useYn,
                         list(new QCodeDto(code.codePk.code
                                         , code.codeKorName
                                         , code.codeEngName
@@ -60,6 +67,10 @@ public class GroupCodeRepositoryCustomImpl implements GroupCodeRepositoryCustom{
 
     private BooleanExpression groupCodeEq(String groupCodeParam) {
         return groupCodeParam != null && !StringUtils.isBlank(groupCodeParam) ? groupCode1.groupCode.eq(groupCodeParam) : null;
+    }
+
+    private BooleanExpression groupCodeUseYnEq(String useYn) {
+        return groupCode1.useYn.eq(useYn);
     }
 
     private BooleanExpression codeEq(String codeParam) {
