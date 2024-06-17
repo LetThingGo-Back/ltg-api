@@ -1,17 +1,18 @@
-jasypt:
-  encryptor:
-    bean: jasyptEncryptorAES
-
 spring:
   mvc:
     resources:
       static-locations: src/main/webapp/
+#    view:
+#      suffix: .html
   datasource:
     url: ENC(t7pvzQpjkYPyXsrWRmsWExW1/T7fXy6Y3ZE7RHfwp0D/1OCQwPo7elS3apb3/lFzinA45L6AnQ/hWF/N/qmRIUYDhBo0NsFp/nEbjwea98I=)
     username: ENC(7a7iff3s31ZM7MSM5Nm1KkhXC8Q+72gtemO5l+Tx/yZ8x90CM9xP1NwNpOgVGKkK)
     password: ENC(HsoJf0PUii70PHtTSr0snzmDZNLWZ4UMfKmfN4rPEllDSw8weU5KFqOPVSWNnrWM)
     driver-class-name: org.mariadb.jdbc.Driver
-
+#    url: jdbc:h2:tcp://localhost/~/testdb
+#    username: sa
+#    password:
+#    driver-class-name: org.h2.Driver
   jwt:
     secret: ${JWT_SECRET}
   security:
@@ -33,7 +34,6 @@ spring:
             client-id: ${KAKAO_CLIENT_ID}
             client-secret: ${KAKAO_CLIENT_SECRET}
             authorization-grant-type: authorization_code
-            #client-authentication-method: client_secret_post
             client-name: letthinggo
             redirect-uri: "{baseUrl}/login/oauth2/code/kakao"
             scope: profile_nickname,account_email
