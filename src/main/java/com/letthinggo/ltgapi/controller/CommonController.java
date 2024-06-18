@@ -11,11 +11,20 @@ import jakarta.annotation.Nullable;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -33,12 +42,21 @@ public class CommonController {
             @ApiResponse(responseCode = "40101", description = "이미 등록된 그룹코드입니다."),
     }
     )
-    @PostMapping("/v1/group-codes")
+    @PostMapping("/v1/group-codes" )
     public ResponseEntity createGroupCode( @Valid @RequestBody GroupCodeCreateRequest groupCodeCreateRequest) throws Exception{
         GroupCodeCreateResponse rtnVo = codeService.createGroupCode(groupCodeCreateRequest);
         EntityModel entityModel = EntityModel.of(ApiCommonResponse.createSuccess(rtnVo));
+        URI selfLocation = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{groupCode}").buildAndExpand(rtnVo.getGroupCode()).toUri();
+        URI allLocation = ServletUriComponentsBuilder.fromCurrentRequest()
+                        .buildAndExpand(rtnVo.getGroupCode()).toUri();
+
+        entityModel.add(Link.of(selfLocation.toString(), "self"));
+        entityModel.add(Link.of(allLocation.toString(), "all-group-codes"));
+
         return ResponseEntity.ok(entityModel);
     }
+
 
     @Operation(summary = "공통코드 생성 API", description = "공통코드 정보를 등록합니다.")
     @ApiResponses({
@@ -66,12 +84,23 @@ public class CommonController {
     )
     @GetMapping({"/v1/group-codes/{groupCode}/codes", "/v1/group-codes/{groupCode}/codes/{code}" })
     public ResponseEntity retrieveCodes( @PathVariable String groupCode
-                                        , @PathVariable(required = false) String code,
-                                         @Valid @Nullable @ModelAttribute CodeSearchRequest codeRequest
-    )
-            throws Exception{
+            , @PathVariable(required = false) String code
+            , @Valid @Nullable @ModelAttribute CodeSearchRequest codeRequest)throws Exception{
         CodeSearchResponse codeSearchResponse = codeService.retrieveCode(groupCode, code, codeRequest);
         EntityModel entityModel = EntityModel.of(ApiCommonResponse.createSuccess(codeSearchResponse));
+        return ResponseEntity.ok(entityModel);
+    }
+
+    @Operation(summary = "그룹 공통코드 조회 API", description = "그룹코드 정보를 조회합니다.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK")
+    }
+    )
+    @GetMapping({"/v1/group-codes", "/v1/group-codes/{groupCode}" })
+    public ResponseEntity retrieveGroupCodes( @PathVariable(required = false) String groupCode,
+                                         @Valid @Nullable @ModelAttribute GroupCodeSearchRequest groupCodeRequest)throws Exception{
+        List<GroupCodeSearchResponse> groupCodeSearchResponse = codeService.retrieveGroupCode(groupCode, groupCodeRequest);
+        EntityModel entityModel = EntityModel.of(ApiCommonResponse.createSuccess(groupCodeSearchResponse));
         return ResponseEntity.ok(entityModel);
     }
 }
