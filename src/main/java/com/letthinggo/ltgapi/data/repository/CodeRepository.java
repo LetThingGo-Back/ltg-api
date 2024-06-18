@@ -10,6 +10,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface CodeRepository extends JpaRepository<Code, CodePk> {
-    @Query("select c from Code c where c.codePk.groupCode = :groupCode")
-    List<Code> findAllByGroupCode(@Param("groupCode") GroupCode groupCode);
+    @Query("select c from Code c where c.codePk.groupCode.groupCode = :groupCode")
+    List<Code> findAllByGroupCode(@Param("groupCode") String groupCode);
 }
