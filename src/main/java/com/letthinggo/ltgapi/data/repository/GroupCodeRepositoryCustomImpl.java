@@ -65,13 +65,41 @@ public class GroupCodeRepositoryCustomImpl implements GroupCodeRepositoryCustom{
         return result.get(0);
     }
 
+    @Override
+    public List<GroupCodeSearchResponse> findAllByGroupCode(String groupCodeParam, GroupCodeSearchRequest groupCodeRequest) {
+        return queryFactory
+                .select(new QGroupCodeSearchResponse(
+                        groupCode1.groupCode
+                        ,groupCode1.groupCodeName
+                        ,groupCode1.mngDes1
+                        ,groupCode1.mngDes2
+                        ,groupCode1.mngDes3
+                        ,groupCode1.mngDes4
+                        ,groupCode1.description
+                        ,groupCode1.useYn
+                ))
+                .from(groupCode1)
+                .where(
+                        groupCodeEq(groupCodeParam),
+                        groupCodeRequest!=null ? groupCodeUseYnEq(groupCodeRequest.getUseYn()) : null,
+                        groupCodeRequest!=null ? groupCodeNameEq(groupCodeRequest.getGroupCodeName()) : null
+                )
+                .orderBy(groupCode1.groupCode.asc(), groupCode1.createdDate.asc())
+                .fetch();
+    }
+
     private BooleanExpression groupCodeEq(String groupCodeParam) {
         return groupCodeParam != null && !StringUtils.isBlank(groupCodeParam) ? groupCode1.groupCode.eq(groupCodeParam) : null;
     }
 
     private BooleanExpression groupCodeUseYnEq(String useYn) {
-        return groupCode1.useYn.eq(useYn);
+        return useYn != null && !StringUtils.isBlank(useYn) ? groupCode1.useYn.eq(useYn) : null;
     }
+
+    private BooleanExpression groupCodeNameEq(String groupCodeName) {
+        return groupCodeName != null && !StringUtils.isBlank(groupCodeName) ? groupCode1.groupCodeName.eq(groupCodeName) : null;
+    }
+
 
     private BooleanExpression codeEq(String codeParam) {
         return codeParam != null && !StringUtils.isBlank(codeParam) ? code.codePk.code.eq(codeParam) : null;
