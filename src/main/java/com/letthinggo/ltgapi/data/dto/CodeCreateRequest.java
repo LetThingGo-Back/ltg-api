@@ -17,4 +17,10 @@ public class CodeCreateRequest {
     @Size(max=6)
     private String groupCode;
     List<CodeDto> codes = new ArrayList<>();
+
+    @Builder
+    public CodeCreateRequest(String groupCode, List<CodeDto> codes) {
+        this.groupCode = groupCode;
+        this.codes = codes;
+    }
 }

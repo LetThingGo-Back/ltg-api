@@ -15,6 +15,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static com.letthinggo.ltgapi.exception.ErrorCode.*;
 @Service
@@ -42,7 +43,7 @@ public class CodeServiceImpl implements CodeService {
     @Override
     public int createCode(CodeCreateRequest codeCreateRequest) throws Exception {
         // 1. 공통코드 중복 입력 체크
-        checkForDuplicateCodes(codeCreateRequest.getCodes());
+        validateCodes(codeCreateRequest.getCodes());
 
         // 2. 그룹코드 확인
         Optional<GroupCode> groupCodeOut =groupCodeRepository.findById(codeCreateRequest.getGroupCode());
@@ -50,15 +51,8 @@ public class CodeServiceImpl implements CodeService {
             throw new CommonException(GROUP_CODE_NOT_FOUND);
         }
         // 3. 공통코드 확인
-        List<Code> codesOut = codeRepository.findAllByGroupCode(groupCodeOut.get());
-         for(Code code : codesOut) {
-             for (CodeDto requestCode : codeCreateRequest.getCodes()) {
-                 if (code.equals(requestCode.getCode())) {
-                     // 같은 그룹코드에 동일한 코드 값이 있을 때 예외 발생
-                     throw new CommonException(DUPLICATE_CODE);
-                 }
-             }
-        }
+        validateCodesFromEntities(groupCodeOut.get().getGroupCode(), codeCreateRequest.getCodes());
+
         // 4. 코드 생성
         List<Code> code = codeRepository.saveAll(Code.createCodes(codeCreateRequest, groupCodeOut.get()));
         return code.size();
@@ -75,7 +69,7 @@ public class CodeServiceImpl implements CodeService {
         return groupCodeRepository.findAllByGroupCodeAndCode(groupCode, code, codeRequest);
     }
 
-    public void checkForDuplicateCodes(List<CodeDto> requestCodes) {
+    public void validateCodes(List<CodeDto> requestCodes) {
         Set<String> codeSet = new HashSet<>();
         requestCodes.stream()
                 .map(CodeDto::getCode)
@@ -83,6 +77,20 @@ public class CodeServiceImpl implements CodeService {
                     if (!codeSet.add(code)) {
                         throw new CommonException(INVALID_CODE);
                     }
+                });
+    }
+
+    public void validateCodesFromEntities(String groupCode, List<CodeDto> requestCodes) {
+        List<Code> codesOut = codeRepository.findAllByGroupCode(groupCode);
+        List<String> requestCodeValues = requestCodes.stream()
+                .map(CodeDto::getCode)
+                .collect(Collectors.toList());
+
+        codesOut.stream()
+                .filter(code -> requestCodeValues.contains(code.getCodePk().getCode()))
+                .findAny()
+                .ifPresent(code -> {
+                    throw new CommonException(DUPLICATE_CODE);
                 });
     }
 }
