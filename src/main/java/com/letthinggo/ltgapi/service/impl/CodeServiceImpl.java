@@ -69,6 +69,11 @@ public class CodeServiceImpl implements CodeService {
         return groupCodeRepository.findAllByGroupCodeAndCode(groupCode, code, codeRequest);
     }
 
+    @Override
+    public List<GroupCodeSearchResponse> retrieveGroupCode(String groupCode, GroupCodeSearchRequest groupCodeRequest) {
+        return groupCodeRepository.findAllByGroupCode(groupCode, groupCodeRequest);
+    }
+
     public void validateCodes(List<CodeDto> requestCodes) {
         Set<String> codeSet = new HashSet<>();
         requestCodes.stream()
