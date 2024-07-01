@@ -1,22 +1,23 @@
 package com.letthinggo.ltgapi.data.entity;
 
+import com.letthinggo.ltgapi.data.dto.ItemDto;
 import com.letthinggo.ltgapi.data.entity.common.BaseDateTime;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import net.minidev.json.annotate.JsonIgnore;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Getter
 @NoArgsConstructor
 @Table(name = "LOCATION")
 public class Location extends BaseDateTime {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "LOCATION_ID", nullable = false)
     private Long id;
 
@@ -42,11 +43,40 @@ public class Location extends BaseDateTime {
     @Column(name = "LONGITUDE", nullable = false, precision = 10, scale = 6)
     private BigDecimal longitude;
 
-    @Column(name = "LIGHTING_YN", nullable = false)
-    private Character lightingYn;
+    @Column(name = "LIGHTNING_YN", nullable = false)
+    private char lightningYn;
 
     @Convert(converter = AvailabiltyCodeConverter.class)
     @Column(name = "AVAILABILITY_CODE", nullable = false)
     private AvailabiltyCode availabilityCode;
 
+    @Builder
+    public Location (Item item, String address,String district, String dong, String description, BigDecimal latitude, BigDecimal longitude, char lightningYn, AvailabiltyCode availabilityCode) {
+        this.item = item;
+        this.address = address;
+        this.district = district;
+        this.dong = dong;
+        this.description = description;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.lightningYn = lightningYn;
+        this.availabilityCode = availabilityCode;
+    }
+
+    //TODO 추후 수정예정
+    public static List<Location> createLocation(ItemDto.CreateRequest createRequest , Item item){
+        return createRequest.getAddrAndAvailList().stream()
+                .map(dto -> Location.builder()
+                        .item(item)
+                        .address(dto.getAddress())
+                        .district(dto.getDistrict())
+                        .dong(dto.getDong())
+                        .description(dto.getAddressDescription())
+                        .latitude(dto.getLatitude())
+                        .longitude(dto.getLongitude())
+                        .lightningYn(dto.getLightningYn())
+                        .availabilityCode(AvailabiltyCode.fromCode(dto.getAvailabilityCode()))
+                        .build())
+                .collect(Collectors.toList());
+    }
 }
