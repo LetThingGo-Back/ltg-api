@@ -10,5 +10,4 @@ class LtgApiApplicationTests {
 	void contextLoads() {
 	}
 
-
 }
