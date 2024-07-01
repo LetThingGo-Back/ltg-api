@@ -9,7 +9,7 @@ import java.util.Arrays;
 @Getter
 public enum AvailabiltyCode {
     CONTRIBUTOR("C","Contributor"),
-    APPLICATION("A","Application");
+    APPLICANT("A","APPLICANT");
 
     private final String code;
     private final String availRegName;

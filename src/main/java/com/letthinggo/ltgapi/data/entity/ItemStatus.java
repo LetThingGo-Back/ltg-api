@@ -20,13 +20,11 @@ public enum ItemStatus {
     LONGLASTING("23","소비기한2일이상","LONGLASTING"),
     EXTENDED("24","소비기한1주일이상남음","EXTENDED"),
     SUSTAINED("25","소비기한1달이상남음","SUSTAINED")
-
     ;
 
     private String code;
     private String codeKorName;
     private String codeEngName;
-
 
     ItemStatus(String code, String codeKorName, String codeEngName) {
         this.code=code;
