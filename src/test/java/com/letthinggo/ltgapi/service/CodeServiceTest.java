@@ -1,13 +1,13 @@
 package com.letthinggo.ltgapi.service;
 
-import com.letthinggo.ltgapi.data.dto.CodeCreateRequest;
-import com.letthinggo.ltgapi.data.dto.CodeDto;
-import com.letthinggo.ltgapi.data.dto.GroupCodeCreateRequest;
-import com.letthinggo.ltgapi.data.dto.GroupCodeCreateResponse;
-import com.letthinggo.ltgapi.data.entity.GroupCode;
-import com.letthinggo.ltgapi.data.repository.GroupCodeRepository;
-import com.letthinggo.ltgapi.exception.CommonException;
-import com.letthinggo.ltgapi.service.CodeService;
+import com.letthinggo.ltgapi.domain.code.data.dto.CodeCreateRequest;
+import com.letthinggo.ltgapi.domain.code.data.dto.CodeDto;
+import com.letthinggo.ltgapi.domain.code.data.dto.GroupCodeCreateRequest;
+import com.letthinggo.ltgapi.domain.code.data.dto.GroupCodeCreateResponse;
+import com.letthinggo.ltgapi.domain.code.data.entity.GroupCode;
+import com.letthinggo.ltgapi.domain.code.data.repository.GroupCodeRepository;
+import com.letthinggo.ltgapi.domain.code.service.CodeService;
+import com.letthinggo.ltgapi.global.exception.CommonException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.junit.jupiter.api.Test;
@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static com.letthinggo.ltgapi.exception.ErrorCode.*;
+import static com.letthinggo.ltgapi.global.exception.ErrorCode.*;
 import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
